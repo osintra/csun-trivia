@@ -35,6 +35,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".GameActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".ScoreActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".CreditsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".MapsActivity"
             android:label="@string/app_name" >
         </activity>
