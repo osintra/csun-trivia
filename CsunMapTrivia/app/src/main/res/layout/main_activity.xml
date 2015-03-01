@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/main_welcome"
+        android:text="@string/main_title"
         android:id="@+id/mainTextView1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:text="@string/main_game_button"
         android:id="@+id/mainButton1"
-        android:layout_centerVertical="true"
+        android:layout_above="@+id/mainButton2"
         android:layout_centerHorizontal="true"/>
 
     <Button
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:text="@string/main_score_button"
         android:id="@+id/mainButton2"
-        android:layout_below="@+id/mainButton1"
+        android:layout_above="@+id/mainButton3"
         android:layout_centerHorizontal="true"/>
 
     <Button
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:text="@string/main_credits_button"
         android:id="@+id/mainButton3"
-        android:layout_below="@+id/mainButton2"
+        android:layout_above="@+id/mainButton4"
         android:layout_centerHorizontal="true"/>
 
     <Button
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:text="@string/main_maps_button"
         android:id="@+id/mainButton4"
-        android:layout_below="@+id/mainButton3"
+        android:layout_above="@+id/mainTextView3"
         android:layout_centerHorizontal="true"/>
 
     <TextView

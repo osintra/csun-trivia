@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">CSUN Map Trivia</string>
-    <string name="main_welcome">Welcome to the official CSUN Map Trivia game!</string>
-    <string name="main_description">Know your campus! Answer descriptive questions by pressing on the correct building in
-        the map as fast as possible! Users with the fastest timing and the most correct answers may even be lucky
-        enough to see their name and results in the High Scores after their game is over! Think YOU got what it
+    <string name="main_title">Welcome to the official\nCSUN Map Trivia game!</string>
+    <string name="main_description">Know your campus! Answer descriptive questions by pressing on the correct building
+        in the map as fast as possible! Users with the fastest timing and the most correct answers may even be lucky
+        enough to see their name and results in the High Scores after the game is over! Think <i>YOU</i> got what it
         takes to master CSUN Map Trivia?</string>
     <string name="main_game_button">Game Start</string>
     <string name="main_score_button">High Scores</string>
@@ -11,4 +11,23 @@
     <string name="main_maps_button">[DEBUG]Maps Activity</string>
     <string name="main_copyright">&#169; 2015 Comp 680 Team 2</string>
     <string name="title_activity_game">Game Activity</string>
+    <!-- -->
+    <!-- -->
+    <string name="credits_title">About CSUN Map Trivia</string>
+    <string name="credits_description">CSUN Map Trivia is an\n
+        Android game application created at\n
+        California State University Northridge\n
+        as a Spring 2015 semester project by\n
+        \'Team 2\' for Professor M. Boctor\'s\n
+        Computer Science 680 class.\n
+        Our team consists of:\n
+        <b>Chris Bowles\n
+        Victor Perez\n
+        Russell Templet\n
+        Nishika Malhotra\n
+        Maria Velasquez\n</b>\n
+        Our website can be accessed by clicking the button below, which will exit this application and open your web
+        browser at our address.</string>
+    <string name="credits_website_button">www.nullroute.cc</string>
+    <string name="back_button">&lt;- Back</string>
 </resources>
