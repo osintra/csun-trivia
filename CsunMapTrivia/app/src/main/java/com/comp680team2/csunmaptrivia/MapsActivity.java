@@ -87,7 +87,7 @@ public class MapsActivity extends FragmentActivity {
         Polyline polyline = mMap.addPolyline(rectOptions);
 */
         Polygon polygon = mMap.addPolygon(new PolygonOptions()
-                .add(new LatLng(34.24123938043965, -118.53193402290344), new LatLng(34.2419134421894, -118.53192329406738), new LatLng(34.241931180583606, -118.53333950042725), new LatLng(34.241257118975916, -118.53331804275513))
+                .add(new LatLng(34.241239380333965, -118.53193402290344), new LatLng(34.2419134421894, -118.53192329406738), new LatLng(34.241931180583606, -118.53333950042725), new LatLng(34.241257118975916, -118.53331804275513))
                 .strokeColor(Color.RED)
                 .fillColor(Color.BLUE));
     }
