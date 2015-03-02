@@ -7,6 +7,9 @@ package com.comp680team2.csunmaptrivia;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class ScoreActivity extends Activity
 {
@@ -14,5 +17,14 @@ public class ScoreActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.score_activity);
+
+		Button button1 = (Button)findViewById(R.id.scoreButton1);
+		button1.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				finish();
+			}
+		});
 	}
 }

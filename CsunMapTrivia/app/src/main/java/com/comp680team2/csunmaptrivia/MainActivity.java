@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends Activity
@@ -19,7 +20,7 @@ public class MainActivity extends Activity
 		setContentView(R.layout.main_activity);
 
 		Button button1 = (Button)findViewById(R.id.mainButton1);
-		button1.setOnClickListener(new View.OnClickListener()
+		button1.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -28,7 +29,7 @@ public class MainActivity extends Activity
 		});
 
 		Button button2 = (Button)findViewById(R.id.mainButton2);
-		button2.setOnClickListener(new View.OnClickListener()
+		button2.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -37,7 +38,7 @@ public class MainActivity extends Activity
 		});
 
 		Button button3 = (Button)findViewById(R.id.mainButton3);
-		button3.setOnClickListener(new View.OnClickListener()
+		button3.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -46,7 +47,7 @@ public class MainActivity extends Activity
 		});
 
 		Button button4 = (Button)findViewById(R.id.mainButton4);
-		button4.setOnClickListener(new View.OnClickListener()
+		button4.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View view)
 			{

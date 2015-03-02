@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class CreditsActivity extends Activity
@@ -20,7 +21,7 @@ public class CreditsActivity extends Activity
 		setContentView(R.layout.credits_activity);
 
 		Button button1 = (Button)findViewById(R.id.creditsButton1);
-		button1.setOnClickListener(new View.OnClickListener()
+		button1.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -29,7 +30,7 @@ public class CreditsActivity extends Activity
 		});
 
 		Button button2 = (Button)findViewById(R.id.creditsButton2);
-		button2.setOnClickListener(new View.OnClickListener()
+		button2.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View view)
 			{
