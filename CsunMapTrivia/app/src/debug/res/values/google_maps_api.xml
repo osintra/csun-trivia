@@ -1,16 +1,17 @@
 <resources>
     <!--
-    TODO: Before you run your application, you need a Google Maps API key.
+    TODO: Before you run this application, you need a Google Maps API key.
+    (debug only)
+    You will need the SHA-1 fingerprint from your computer:
+        (For MAC) On the terminal run the following (assuming you already have the java keytool):
+            keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore -list -v
+        From the Certificate Fingerprints that show up get a hold of the SHA-1:
+            Ex. SHA1: xx:xx:...:xx
+    Go to your Google Developers Console and create a new project
+    Follow the instructions.
 
-    To get one, follow this link, follow the directions and press "Create" at the end:
-
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=96:D3:31:85:F6:B8:E6:0E:93:DA:84:91:13:17:81:1C:AB:F9:A4:64%3Bcom.comp680team2.csunmaptrivia
-
-    You can also add your credentials to an existing key, using this line:
-    96:D3:31:85:F6:B8:E6:0E:93:DA:84:91:13:17:81:1C:AB:F9:A4:64;com.comp680team2.csunmaptrivia
-
-    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    Once you have your key (it starts with "AIza"), replace the "AIza..."
     string in this file.
     -->
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAWb5AP-uL0a1YbXyCsLNY8vUyFOlDufWU</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyDqDSgEcygaPPR69Is4QDrKdRlFNrGGpmU</string>
 </resources>
