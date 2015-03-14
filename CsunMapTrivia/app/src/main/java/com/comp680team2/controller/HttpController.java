@@ -25,7 +25,7 @@ import java.io.StringWriter;
  */
 public class HttpController {
 
-    public String makeRequest(String url) {
+    public String makeGetRequest(String url) {
         String response = "";
 
         try {
