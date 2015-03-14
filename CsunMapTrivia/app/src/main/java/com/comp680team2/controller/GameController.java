@@ -18,6 +18,8 @@ public class GameController {
     /** TODO: make this */
     public QuestionHolder fetchQuestionSet() {
         String json = httpController.makeRequest("http://nullroute.cc/rest_test/knowYourCampus/fetch_game_config.php");
+
+
         return null;
     }
 }

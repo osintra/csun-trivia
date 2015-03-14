@@ -10,6 +10,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        testApplicationId "com.comp680team2.csunmaptrivia.controller"
     }
     buildTypes {
         release {
@@ -20,8 +21,8 @@ android {
 }
 
 dependencies {
-    androidTestCompile files('lib/junit-4.10.jar')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.android.gms:play-services:6.5.87'
+    compile files('lib/commons-io-2.4.jar')
 }
