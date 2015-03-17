@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-/**
- * Created by Russell on 3/11/2015.
- */
+
 public class HttpControllerTest {
 
     HttpController httpController;
@@ -19,7 +17,7 @@ public class HttpControllerTest {
 
     @Test
     public void testMakeRequest() throws IOException {
-        httpController.makeRequest("http://nullroute.cc/rest_test/knowYourCampus/fetch_game_config.php");
+        httpController.makeGetRequest("http://nullroute.cc/rest_test/knowYourCampus/fetch_game_config.php");
     }
 
 }

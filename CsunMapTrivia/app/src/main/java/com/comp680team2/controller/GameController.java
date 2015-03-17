@@ -13,9 +13,7 @@ import java.util.Map;
 
 import flexjson.JSONDeserializer;
 
-/**
- * Created by Russell on 3/11/2015.
- */
+
 public class GameController {
 
     private static final String REGION_KEY = "regions";

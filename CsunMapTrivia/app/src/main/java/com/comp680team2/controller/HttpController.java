@@ -20,9 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 
-/**
- * Created by Russell on 3/11/2015.
- */
+
 public class HttpController {
 
     public String makeGetRequest(String url) {

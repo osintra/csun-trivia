@@ -1,8 +1,5 @@
 package com.comp680team2.model;
 
-/**
- * Created by Russell on 3/11/2015.
- */
 public class Question {
     private int difficulty;
     private String text;
