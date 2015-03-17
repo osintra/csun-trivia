@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.comp680team2.controller.GameController;
+import com.comp680team2.model.QuestionHolder;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -48,13 +50,17 @@ public class MapsActivity extends FragmentActivity {
     double verty[] = {-118.530277, -118.530143, -118.530143, -118.530277};
     int seconds = 10;
     TextView timerTextView;
+    TextView questionTextView;
     Polygon polygon = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps_activity);
         timerTextView = (TextView) findViewById(R.id.timer);
+        questionTextView = (TextView) findViewById(R.id.questionText);
+        initializeGame();
 
         Thread backgroundThread = new Thread(new Runnable() {
             public void run() {
@@ -86,6 +92,23 @@ public class MapsActivity extends FragmentActivity {
             }
         });
         backgroundThread.start();
+    }
+
+    private void initializeGame() {
+        Thread initThread = new Thread(new Runnable() {
+            public void run() {
+                //show some sort of loading mask
+                final QuestionHolder questionHolder = new GameController().fetchQuestionSet();
+                //hide the loading mask
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        questionTextView.setText(questionHolder.getQuestion(0).getText());
+                    }
+                });
+            }
+        });
+        initThread.start();
     }
 
     @Override

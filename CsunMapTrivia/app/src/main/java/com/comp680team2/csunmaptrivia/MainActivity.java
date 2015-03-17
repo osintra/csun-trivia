@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.comp680team2.controller.GameController;
+import com.comp680team2.controller.HttpController;
+import com.comp680team2.model.QuestionHolder;
+
 public class MainActivity extends Activity
 {
 	protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +55,7 @@ public class MainActivity extends Activity
 		{
 			public void onClick(View view)
 			{
-				startActivity(new Intent(getBaseContext(), MapsActivity.class));
+                startActivity(new Intent(getBaseContext(), MapsActivity.class));
 			}
 		});
 	}
