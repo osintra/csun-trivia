@@ -50,7 +50,7 @@ public class MapsActivity extends FragmentActivity {
     double verty[] = {-118.530277, -118.530143, -118.530143, -118.530277};
     int seconds = 10;
     TextView timerTextView;
-    TextView questionText;
+    TextView questionTextView;
     Polygon polygon = null;
 
 
@@ -59,6 +59,7 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps_activity);
         timerTextView = (TextView) findViewById(R.id.timer);
+        questionTextView = (TextView) findViewById(R.id.questionText);
         initializeGame();
 
         Thread backgroundThread = new Thread(new Runnable() {
@@ -102,7 +103,7 @@ public class MapsActivity extends FragmentActivity {
 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        questionText.setText(questionHolder.getQuestion(0).getText());
+                        questionTextView.setText(questionHolder.getQuestion(0).getText());
                     }
                 });
             }
