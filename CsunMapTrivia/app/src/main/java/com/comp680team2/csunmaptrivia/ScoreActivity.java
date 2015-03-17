@@ -33,7 +33,6 @@ public class ScoreActivity extends Activity
         myTextView.setText(scoreToDisplay);
 	}
 
-    //TODO: This needs to be refactored so that there's no need for static methods
     static public void setScoreToDisplay(int score) {
         scoreToDisplay = "Score: " + String.valueOf(score);
     }

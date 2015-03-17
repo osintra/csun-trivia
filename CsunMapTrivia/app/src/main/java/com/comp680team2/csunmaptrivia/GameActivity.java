@@ -9,7 +9,7 @@ import java.util.Random;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +17,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.comp680team2.model.ScoreKeeper;
 
@@ -25,6 +26,7 @@ public class GameActivity extends Activity
 	private TextView textView;
 	private double scale;
     private ScoreKeeper scoreKeeper = null;
+    private final String TAG = "GameActivity";
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -104,17 +106,18 @@ public class GameActivity extends Activity
 			public void onClick(View view)
 			{
                 scoreKeeper.submitCurrentScore();
-				scoreKeeper.resetCurrentScore();
                 finish();
 			}
 		});
 	}
 
-    // Will not support platform versions older than 2.0
+    // If the game activity is stopped, the game ends
+    // the score is reset without being submitted
     @Override
-    public void onBackPressed() {
-        scoreKeeper.submitCurrentScore();
+    public void onStop() {
         scoreKeeper.resetCurrentScore();
+        Toast.makeText(this, "Quitting Game", Toast.LENGTH_SHORT).show();
         finish();
+        super.onStop();
     }
 }

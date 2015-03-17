@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.comp680team2.controller.GameController;
 import com.comp680team2.model.QuestionHolder;
@@ -58,8 +59,10 @@ public class MapsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps_activity);
+
         timerTextView = (TextView) findViewById(R.id.timer);
         questionTextView = (TextView) findViewById(R.id.questionText);
+
         initializeGame();
 
         Thread backgroundThread = new Thread(new Runnable() {
@@ -110,6 +113,8 @@ public class MapsActivity extends FragmentActivity {
         });
         initThread.start();
     }
+
+
 
     @Override
     protected void onResume() {
