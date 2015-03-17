@@ -55,22 +55,8 @@ public class MainActivity extends Activity
 		{
 			public void onClick(View view)
 			{
-				initializeGame();
+                startActivity(new Intent(getBaseContext(), MapsActivity.class));
 			}
 		});
 	}
-
-
-
-    private void initializeGame() {
-        Thread initThread = new Thread(new Runnable() {
-            public void run() {
-                //show some sort of loading mask
-                QuestionHolder questionHolder = new GameController().fetchQuestionSet();
-                //hide the loading mask
-                startActivity(new Intent(getBaseContext(), MapsActivity.class));
-            }
-        });
-        initThread.start();
-    }
 }
