@@ -9,6 +9,7 @@ import java.util.Random;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,15 +18,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.comp680team2.model.ScoreKeeper;
+
 public class GameActivity extends Activity
 {
 	private TextView textView;
 	private double scale;
+    private ScoreKeeper scoreKeeper = null;
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game_activity);
+        scoreKeeper = ScoreKeeper.getScoreKeeperSingleton();
 
 		PseudoDatabase database = new PseudoDatabase(this, R.raw.trivia_database); // Object representation of the database
 		int difficulties = 3, databaseSection = 10, chosenSection = 4;
@@ -78,9 +83,11 @@ public class GameActivity extends Activity
 		{
 			public boolean onTouch(View view, MotionEvent event)
 			{
-				int x = (int)(event.getX() * scale);
-				int y = (int)(event.getY() * scale);
-				textView.setText("(" + x + ", " + y + ")");
+				//int x = (int)(event.getX() * scale);
+				//int y = (int)(event.getY() * scale);
+                scoreKeeper.addPoints(1);
+                textView.setText("Score = " + String.valueOf(scoreKeeper.getCurrentScore()));
+				//textView.setText("(" + x + ", " + y + ")");
 				return false;
 			}
 		});
@@ -96,8 +103,18 @@ public class GameActivity extends Activity
 		{
 			public void onClick(View view)
 			{
-				finish();
+                scoreKeeper.submitCurrentScore();
+				scoreKeeper.resetCurrentScore();
+                finish();
 			}
 		});
 	}
+
+    // Will not support platform versions older than 2.0
+    @Override
+    public void onBackPressed() {
+        scoreKeeper.submitCurrentScore();
+        scoreKeeper.resetCurrentScore();
+        finish();
+    }
 }

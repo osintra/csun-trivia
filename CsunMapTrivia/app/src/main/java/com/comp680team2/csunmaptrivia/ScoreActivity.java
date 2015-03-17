@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ScoreActivity extends Activity
 {
+    private static String scoreToDisplay;
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -26,5 +28,13 @@ public class ScoreActivity extends Activity
 				finish();
 			}
 		});
+
+        TextView myTextView = (TextView) findViewById(R.id.scoreTextView2);
+        myTextView.setText(scoreToDisplay);
 	}
+
+    //TODO: This needs to be refactored so that there's no need for static methods
+    static public void setScoreToDisplay(int score) {
+        scoreToDisplay = "Score: " + String.valueOf(score);
+    }
 }

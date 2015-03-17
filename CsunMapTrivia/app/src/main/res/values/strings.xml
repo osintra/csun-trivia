@@ -16,8 +16,8 @@
     <string name="game_score">Score: 000000</string>
     <string name="game_time">Time: 0.000</string>
     <string name="game_description">*\n*\n*</string>
-    <string name="score_title">High Score Rankings</string>
-    <string name="score_description">(insert high score functionality here)</string>
+    <string name="score_title">Last Score</string>
+    <string name="score_description">Score: 0</string>
     <string name="credits_title">About CSUN Map Trivia</string>
     <string name="credits_description">CSUN Map Trivia is an\n
         Android game application created at\n

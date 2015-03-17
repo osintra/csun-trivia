@@ -1,7 +1,8 @@
 package com.comp680team2.model;
 
+import com.comp680team2.csunmaptrivia.ScoreActivity;
+
 /**
- * Created by M.R. Velasquez on 3/12/15.
  * This singleton class keeps the game's current score. The current score is supposed to be updated
  * after a question is answered/runs out of time
  * This is not thread safe
@@ -29,10 +30,26 @@ public final class ScoreKeeper {
     }
 
     /**
-     * Adds points to the current score
+     * Add points to the current score
      * @param points    the point to be added to the current score
      */
     public void addPoints(int points) {
         this.currentScore = currentScore + points;
     }
+
+    /**
+     * Reset current score
+     */
+    public void resetCurrentScore() {
+        currentScore = 0;
+    }
+
+
+    /**
+     * Submit current score
+     */
+    public void submitCurrentScore() {
+        ScoreActivity.setScoreToDisplay(currentScore);
+    }
+    //TODO: implement Google Play leaderboard current score submission for second sprint
 }
