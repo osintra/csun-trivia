@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -51,6 +52,8 @@ public class MapsActivity extends FragmentActivity {
     TextView questionTextView;
     Polygon polygon = null;
     String trivia = null;
+    String label = null;
+    Marker myMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,14 +101,13 @@ public class MapsActivity extends FragmentActivity {
                 });
                 try {
                     for (int i = 0; i < 4; i++) {
-                        double x = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getX();
-                        double y = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getY();
-                        vertX[i] = x;
-                        vertY[i] = y;
-                        if(questionHolder.getQuestion(0).getTrivia() != null) {
-                            trivia = questionHolder.getQuestion(0).getTrivia();
-                        }
+                        vertX[i] = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getX();
+                        vertY[i]= questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getY();
                     }
+                    if(questionHolder.getQuestion(0).getTrivia() != null) {
+                        trivia = questionHolder.getQuestion(0).getTrivia();
+                    }
+                    label = questionHolder.getQuestion(0).getAnswer().getLabel();
                 } catch (Exception e){
                     e.printStackTrace();
 
@@ -156,17 +158,18 @@ public class MapsActivity extends FragmentActivity {
         double x = 34.240089;
         double y = -118.529435;
         LatLng ll = new LatLng(x, y);
-        float zoom = 17;
+        final float zoom = 17;
         final int sides = 4;
-        mMap.addMarker(new MarkerOptions().position(ll).title("CSUN"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+        final float tilt = 0;
+        final float bearing = 0;
 
+        //sets the marker and its label to google map
+        myMarker = mMap.addMarker(new MarkerOptions().position(ll).title("CSUN").visible(true));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
+
+        //register a long click/press map event on the google map
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
         @Override
-        /*
-        listener method to capture the long click event on the google map when user
-        makes a long press to answer the question
-         */
         public void onMapLongClick(final LatLng point) {
               MapsActivity.this.latitude = point.latitude;
               MapsActivity.this.longitude = point.longitude;
@@ -185,6 +188,17 @@ public class MapsActivity extends FragmentActivity {
                                 .strokeColor(Color.RED)
                                 .fillColor(Color.BLUE));
                     }
+                    //code to change the map center and marker to the building in question
+                  double newX = ((vertX[0] + vertX[2])/2.0);
+                  double newY = ((vertY[0] + vertY[1])/2.0);
+                  LatLng newLatLng = new LatLng(newX, newY);
+                  LatLng newLatLng1 = new LatLng(vertX[0], vertY[0]);
+                  //removing the old marker
+                  myMarker.remove();
+                  //adding the new marker
+                  mMap.addMarker(new MarkerOptions().position(newLatLng).title(label).snippet(label).visible(true));
+                  mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
+
                   //setting the trivia in place of the question
                   questionTextView.setText(trivia);
                 }
@@ -294,4 +308,7 @@ public class MapsActivity extends FragmentActivity {
             return true;
         }
     }
+
+
+
 }
