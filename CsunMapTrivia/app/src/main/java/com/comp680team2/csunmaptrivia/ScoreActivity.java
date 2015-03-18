@@ -20,16 +20,14 @@ public class ScoreActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.score_activity);
 
-		Button button1 = (Button)findViewById(R.id.scoreButton1);
-		button1.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				finish();
-			}
-		});
+		Button backButton = (Button)findViewById(R.id.score_activity_back_button);
+		backButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
-        TextView myTextView = (TextView) findViewById(R.id.scoreTextView2);
+        TextView myTextView = (TextView) findViewById(R.id.score_activity_scoreTextView);
         myTextView.setText(scoreToDisplay);
 	}
 

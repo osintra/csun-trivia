@@ -15,6 +15,7 @@ public final class ScoreKeeper {
         currentScore = 0;
     }
 
+
     /**
      * @return  the singleton instance of ScoreKeeper
      */
@@ -22,12 +23,14 @@ public final class ScoreKeeper {
         return singleInstance;
     }
 
+
     /**
      * @return  the current score
      */
     public int getCurrentScore() {
         return currentScore;
     }
+
 
     /**
      * Add points to the current score
@@ -37,8 +40,17 @@ public final class ScoreKeeper {
         this.currentScore = currentScore + points;
     }
 
+
     /**
-     * Reset current score
+     * Add 1 (one) point to the current score
+     */
+    public void addPoint() {
+        this.currentScore = currentScore + 1;
+    }
+
+
+    /**
+     * Reset current score to 0 (zero)
      */
     public void resetCurrentScore() {
         currentScore = 0;

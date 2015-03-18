@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/score_title"
-        android:id="@+id/scoreTextView1"
+        android:id="@+id/score_activity_scoreTextView1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
@@ -28,15 +28,15 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/score_description"
-        android:id="@+id/scoreTextView2"
-        android:layout_below="@+id/scoreTextView1"
+        android:id="@+id/score_activity_scoreTextView"
+        android:layout_below="@+id/score_activity_scoreTextView1"
         android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_button"
-        android:id="@+id/scoreButton1"
+        android:id="@+id/score_activity_back_button"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

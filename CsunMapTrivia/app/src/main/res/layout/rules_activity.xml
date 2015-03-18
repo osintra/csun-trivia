@@ -25,9 +25,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/rules_text"
         android:id="@+id/rulesTextView2"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_below="@+id/rulesTextView1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"

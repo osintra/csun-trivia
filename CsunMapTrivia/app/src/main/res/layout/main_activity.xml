@@ -30,14 +30,15 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/main_description"
         android:id="@+id/mainTextView2"
+        android:gravity="center"
+        android:layout_marginTop="29dp"
         android:layout_below="@+id/mainTextView1"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_game_button"
+        android:text="@string/main_game_tester_button"
         android:id="@+id/mainButton1"
         android:layout_above="@+id/mainButton2"
         android:layout_centerHorizontal="true"/>
@@ -61,7 +62,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_maps_button"
+        android:text="@string/main_start_game_button"
         android:id="@+id/mainButton4"
         android:layout_above="@+id/mainTextView3"
         android:layout_centerHorizontal="true"/>

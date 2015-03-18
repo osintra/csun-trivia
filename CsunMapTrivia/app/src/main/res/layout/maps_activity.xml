@@ -23,7 +23,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
     <TextView
-        android:id="@+id/timer"
+        android:id="@+id/maps_activity_timerTextView"
         android:layout_alignRight="@id/dummy"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:text="Timer" />
 
     <TextView
-        android:id="@+id/scoreTextView"
+        android:id="@+id/maps_activity_scoreTextView"
         android:layout_alignLeft="@id/dummy"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
 
 
     <TextView
-        android:id="@+id/questionText"
+        android:id="@+id/maps_activity_questionTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -60,6 +60,6 @@
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
         android:textSize="20dp"
-        android:text="Where is my question??" />
+        android:text="Where is my question?!" />
 
 </RelativeLayout>

@@ -12,9 +12,11 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.comp680team2.controller.GameController;
 import com.comp680team2.model.QuestionHolder;
+import com.comp680team2.model.ScoreKeeper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -42,25 +44,31 @@ import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity {
 
+    //TODO: submit the achieved score when the game ends successfully
+
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     double latitude = 0;
     double longitude = 0;
     double vertX[] = new double[4];
     double vertY[] = new double[4];
     int seconds = 10;
-    TextView timerTextView;
-    TextView questionTextView;
+    TextView timerTextView = null;
+    TextView questionTextView = null;
+    TextView scoreTextView = null;
     Polygon polygon = null;
     String trivia = null;
     String label = null;
     Marker myMarker;
+    ScoreKeeper scoreKeeper = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps_activity);
-        timerTextView = (TextView) findViewById(R.id.timer);
-        questionTextView = (TextView) findViewById(R.id.questionText);
+        timerTextView = (TextView) findViewById(R.id.maps_activity_timerTextView);
+        questionTextView = (TextView) findViewById(R.id.maps_activity_questionTextView);
+        scoreTextView = (TextView) findViewById(R.id.maps_activity_scoreTextView);
+        scoreKeeper = ScoreKeeper.getScoreKeeperSingleton();
 
         initializeGame();
 
@@ -87,12 +95,34 @@ public class MapsActivity extends FragmentActivity {
         backgroundThread.start();
     }
 
+
+    // If the game activity is stopped, the game ends
+    // the score is reset without being submitted
+    @Override
+    public void onStop() {
+        Toast.makeText(this, "Quitting Game", Toast.LENGTH_SHORT).show();
+        super.onStop();
+        scoreKeeper.resetCurrentScore();
+        finish();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
+
+
+    /**
+     *
+     */
     private void initializeGame() {
         Thread initThread = new Thread(new Runnable() {
             public void run() {
-                //show some sort of loading mask
+                //TODO: show some sort of loading mask
+                // fetch question set
                 final QuestionHolder questionHolder = new GameController().fetchQuestionSet();
-                //hide the loading mask
 
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -102,7 +132,7 @@ public class MapsActivity extends FragmentActivity {
                 try {
                     for (int i = 0; i < 4; i++) {
                         vertX[i] = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getX();
-                        vertY[i]= questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getY();
+                        vertY[i] = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getY();
                     }
                     if(questionHolder.getQuestion(0).getTrivia() != null) {
                         trivia = questionHolder.getQuestion(0).getTrivia();
@@ -117,11 +147,7 @@ public class MapsActivity extends FragmentActivity {
         initThread.start();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
+
 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
@@ -181,6 +207,11 @@ public class MapsActivity extends FragmentActivity {
                                         new LatLng(vertX[3], vertY[3]))
                                 .strokeColor(Color.GREEN)
                                 .fillColor(Color.BLUE));
+                       // add 1 (one) point to the current score
+                       //TODO: change to addPoints(...) for second sprint
+                       scoreKeeper.addPoint();
+                       // update the score text view
+                       scoreTextView.setText("Score: " + String.valueOf(scoreKeeper.getCurrentScore()));
                     } else {
                         polygon = mMap.addPolygon(new PolygonOptions()
                                 .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
@@ -206,8 +237,16 @@ public class MapsActivity extends FragmentActivity {
         });
     }
 
-    //checks if the clicked coordinates lie within the bounds of the correct location corresponding to the question
-    boolean findInPolygon(int side, double coordinateX[], double coordinateY[], double testX, double testY) {
+    /**
+     * Check if the coordinates are within the bounds of the correct location corresponding to the question
+     * @param side
+     * @param coordinateX
+     * @param coordinateY
+     * @param testX
+     * @param testY
+     * @return
+     */
+    private boolean findInPolygon(int side, double coordinateX[], double coordinateY[], double testX, double testY) {
         int i, j;
         boolean flag = false;
         for (i=0; i< side; i++) {
