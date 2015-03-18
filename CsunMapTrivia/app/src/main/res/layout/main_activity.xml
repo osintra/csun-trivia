@@ -66,6 +66,14 @@
         android:layout_above="@+id/mainTextView3"
         android:layout_centerHorizontal="true"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_rules_button"
+        android:id="@+id/mainButton5"
+        android:layout_above="@+id/mainButton1"
+        android:layout_centerHorizontal="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
