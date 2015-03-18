@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.comp680team2.controller.GameController;
 import com.comp680team2.model.QuestionHolder;
@@ -23,8 +22,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,19 +44,18 @@ public class MapsActivity extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     double latitude = 0;
     double longitude = 0;
-    double vertx[] = {34.239095, 34.239104, 34.238452, 34.238452};
-    double verty[] = {-118.530277, -118.530143, -118.530143, -118.530277};
+    double vertX[] = new double[4];
+    double vertY[] = new double[4];
     int seconds = 10;
     TextView timerTextView;
     TextView questionTextView;
     Polygon polygon = null;
-
+    String trivia = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps_activity);
-
         timerTextView = (TextView) findViewById(R.id.timer);
         questionTextView = (TextView) findViewById(R.id.questionText);
 
@@ -67,31 +63,22 @@ public class MapsActivity extends FragmentActivity {
 
         Thread backgroundThread = new Thread(new Runnable() {
             public void run() {
-
                 while (true) {
-
-
                     synchronized (this) {
                         try {
                             wait(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 timerTextView.setText(Integer.toString(seconds));
                                 seconds--;
-
                             }
                         });
-
                     }
-
                 }
-
-
             }
         });
         backgroundThread.start();
@@ -109,12 +96,24 @@ public class MapsActivity extends FragmentActivity {
                         questionTextView.setText(questionHolder.getQuestion(0).getText());
                     }
                 });
+                try {
+                    for (int i = 0; i < 4; i++) {
+                        double x = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getX();
+                        double y = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getY();
+                        vertX[i] = x;
+                        vertY[i] = y;
+                        if(questionHolder.getQuestion(0).getTrivia() != null) {
+                            trivia = questionHolder.getQuestion(0).getTrivia();
+                        }
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+
+                }
             }
         });
         initThread.start();
     }
-
-
 
     @Override
     protected void onResume() {
@@ -126,10 +125,6 @@ public class MapsActivity extends FragmentActivity {
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
      * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
      * <p/>
      * A user can return to this FragmentActivity after following the prompt and correctly
      * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
@@ -162,119 +157,80 @@ public class MapsActivity extends FragmentActivity {
         double y = -118.529435;
         LatLng ll = new LatLng(x, y);
         float zoom = 17;
+        final int sides = 4;
         mMap.addMarker(new MarkerOptions().position(ll).title("CSUN"));
-
-
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
-
-        int sides = 4;
-
-        boolean result = pnpoly(sides, vertx, verty, x, y);
-
-
-        if (result) {
-            polygon = mMap.addPolygon(new PolygonOptions()
-                    .add(new LatLng(34.239095, -118.530277), new LatLng(34.239104, -118.530143), new LatLng(34.238452, -118.530143), new LatLng(34.238452, -118.530277))
-                    .strokeColor(Color.GREEN)
-                    .fillColor(Color.BLUE));
-
-        } else {
-            polygon = mMap.addPolygon(new PolygonOptions()
-                    .add(new LatLng(34.239095, -118.530277), new LatLng(34.239104, -118.530143), new LatLng(34.238452, -118.530143), new LatLng(34.238452, -118.530277))
-                    .strokeColor(Color.RED)
-                    .fillColor(Color.BLUE));
-        }
-/*
-        PolylineOptions rectOptions = new PolylineOptions()
-                .add(new LatLng(34.24123938043965, -118.53193402290344))
-                .add(new LatLng(34.2419134421894, -118.53192329406738))  // North of the previous point, but at the same longitude
-                .add(new LatLng(34.241931180583606, -118.53333950042725))  // Same latitude, and 30km to the west
-                .add(new LatLng(34.241257118975916, -118.53331804275513))  // Same longitude, and 16km to the south
-                .add(new LatLng(34.241257118975916, -118.53331804275513)); // Closes the polyline.
-        Polyline polyline = mMap.addPolyline(rectOptions);
-*/
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(final LatLng point) {
-                MapsActivity.this.latitude = point.latitude;
-                MapsActivity.this.longitude = point.longitude;
-                if(!(MapsActivity.this.latitude == 0.0 && MapsActivity.this.longitude == 0.0))
-                {
-                    polygon.remove();
-                    boolean myresult = pnpoly(4,vertx, verty,MapsActivity.this.latitude,MapsActivity.this.longitude);
-                    polygonDraw(myresult);
-                }
 
-            }
-
-
-        });
-
-
+        @Override
         /*
-        Polygon polygon = mMap.addPolygon(new PolygonOptions()
-                .add(new LatLng(34.24123938043965, -118.53193402290344), new LatLng(34.2419134421894, -118.53192329406738), new LatLng(34.241931180583606, -118.53333950042725), new LatLng(34.241257118975916, -118.53331804275513))
-                .strokeColor(Color.RED)
-                .fillColor(Color.BLUE));
-        DoPOST mDoPOST = new DoPOST(this, "yo");
-        mDoPOST.execute("");*/
-    }
-    public void polygonDraw (boolean result) {
-        if(result) {
-            polygon = mMap.addPolygon(new PolygonOptions()
-                    .add(new LatLng(34.239095, -118.530277), new LatLng(34.239104, -118.530143), new LatLng(34.238452, -118.530143), new LatLng(34.238452, -118.530277))
-                    .strokeColor(Color.GREEN)
-                    .fillColor(Color.BLUE));
-        } else {
-            polygon = mMap.addPolygon(new PolygonOptions()
-                    .add(new LatLng(34.239095, -118.530277), new LatLng(34.239104, -118.530143), new LatLng(34.238452, -118.530143), new LatLng(34.238452, -118.530277))
-                    .strokeColor(Color.RED)
-                    .fillColor(Color.BLUE));
-        }
+        listener method to capture the long click event on the google map when user
+        makes a long press to answer the question
+         */
+        public void onMapLongClick(final LatLng point) {
+              MapsActivity.this.latitude = point.latitude;
+              MapsActivity.this.longitude = point.longitude;
+              if(!(MapsActivity.this.latitude == 0.0 && MapsActivity.this.longitude == 0.0)){
+                   boolean myResult = findInPolygon(sides, vertX, vertY, MapsActivity.this.latitude, MapsActivity.this.longitude);
+                   if (myResult) {
+                        polygon = mMap.addPolygon(new PolygonOptions()
+                                .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
+                                        new LatLng(vertX[3], vertY[3]))
+                                .strokeColor(Color.GREEN)
+                                .fillColor(Color.BLUE));
+                    } else {
+                        polygon = mMap.addPolygon(new PolygonOptions()
+                                .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
+                                        new LatLng(vertX[3], vertY[3]))
+                                .strokeColor(Color.RED)
+                                .fillColor(Color.BLUE));
+                    }
+                  //setting the trivia in place of the question
+                  questionTextView.setText(trivia);
+                }
+            }
+        });
     }
 
-    boolean pnpoly(int nvert, double vertx[], double verty[], double testx, double testy)
-    {
+    //checks if the clicked coordinates lie within the bounds of the correct location corresponding to the question
+    boolean findInPolygon(int side, double coordinateX[], double coordinateY[], double testX, double testY) {
         int i, j;
-        int flag =0;
-        char check;
-        boolean c = false;
-
-        for (i=0; i< nvert; i++) {
-            if(testy == verty[i]) {
-                if(testx < vertx[0] && testx > vertx[2]) {
-                    c = true;
-                    return c;
+        boolean flag = false;
+        for (i=0; i< side; i++) {
+            if(testY == coordinateY[i]) {
+                if(testX < coordinateX[0] && testX > coordinateX[2]) {
+                    flag = true;
+                    return flag;
                 } else {
-                    for (j=0; j< nvert; j++) {
-                        if(testx == vertx[j]){
-                            c = true;
-                            return c;
+                    for (j=0; j< side; j++) {
+                        if(testX == coordinateX[j]){
+                            flag = true;
+                            return flag;
                         }
                     }
                 }
-            } else if(testx == vertx[i]){
-                if(testy > verty[0] && testy < verty[1]){
-                    c = true;
-                    return c;
+            } else if(testX == coordinateX[i]){
+                if(testY > coordinateY[0] && testY < coordinateY[1]){
+                    flag = true;
+                    return flag;
                 } else {
-                    for (j=0; j< nvert; j++) {
-                        if(testy == verty[j]){
-                            c = true;
-                            return c;
+                    for (j=0; j< side; j++) {
+                        if(testY == coordinateY[j]){
+                            flag = true;
+                            return flag;
                         }
                     }
                 }
             }
         }
 
-        for (i = 0, j = nvert-1; i < nvert; j = i++) {
-            if ( ((verty[i]>testy) != (verty[j]>testy)) &&
-                    (testx < (vertx[j]-vertx[i]) * (testy-verty[i]) / (verty[j]-verty[i]) + vertx[i]) ) {
-                c = !c;
+        for (i = 0, j = side-1; i < side; j = i++) {
+            if ( ((coordinateY[i]>testY) != (coordinateY[j]>testY)) &&
+                    (testX < (coordinateX[j]-coordinateX[i]) * (testY-coordinateY[i]) / (coordinateY[j]-coordinateY[i]) + coordinateX[i]) ) {
+                flag = !flag;
             }
         }
-        return c;
+        return flag;
     }
 
 // -- Rest Example. Tested to work.
