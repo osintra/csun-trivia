@@ -68,6 +68,14 @@ public class MainActivity extends Activity
 			}
 		});
 
+        Button button5 = (Button)findViewById(R.id.mainButton5);
+        button5.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext(), RulesActivity.class));
+            }
+        });
+
         checkPlayServices();
 	}
 
