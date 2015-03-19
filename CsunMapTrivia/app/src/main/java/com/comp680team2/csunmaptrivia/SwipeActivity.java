@@ -48,10 +48,10 @@ public class SwipeActivity extends MapsActivity implements SwipeGestureDetector.
     public void onSwipe(int direction){
             switch (direction){
                 case SwipeGestureDetector.SWIPE_RIGHT:
-                    flag++;
+                    //flag++;
                     break;
                 case SwipeGestureDetector.SWIPE_LEFT:
-                    flag++;
+                   // flag++;
                     break;
                 case SwipeGestureDetector.SWIPE_DOWN:
                     break;
