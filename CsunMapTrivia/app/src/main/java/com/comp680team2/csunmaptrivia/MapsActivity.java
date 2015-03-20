@@ -39,6 +39,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
     public class MapsActivity extends FragmentActivity {
+        private static final int BLUE_BG = Color.argb(50,0,0,255);
+        private static final int GREEN_OUTLINE = Color.argb(100,0,255,0);
+        private static final int RED_OUTLINE = Color.argb(100,255,0,0);
+
         //TODO: submit the achieved score when the game ends successfully
         private GoogleMap mMap; // Might be null if Google Play services APK is not available.
         double latitude = 0;
@@ -63,7 +67,6 @@ import java.util.ArrayList;
                 questionTextView = (TextView) findViewById(R.id.maps_activity_questionTextView);
                 scoreTextView = (TextView) findViewById(R.id.maps_activity_scoreTextView);
                 scoreKeeper = ScoreKeeper.getScoreKeeperSingleton();
-
                 initializeGame();
 
                 Thread backgroundThread = new Thread(new Runnable() {
@@ -78,8 +81,8 @@ import java.util.ArrayList;
                            runOnUiThread(new Runnable() {
                               @Override
                               public void run() {
-                                 timerTextView.setText(Integer.toString(seconds));
-                                 seconds--;
+                                    timerTextView.setText(Integer.toString(seconds));
+                                    if (seconds > 0) seconds--;
                                    }
                                });
                             }
@@ -187,7 +190,7 @@ import java.util.ArrayList;
                                         polygon = mMap.addPolygon(new PolygonOptions()
                                                 .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
                                                 new LatLng(vertX[3], vertY[3]))
-                                                .strokeColor(Color.GREEN).fillColor(Color.BLUE));
+                                                .strokeColor(GREEN_OUTLINE).fillColor(BLUE_BG));
                                         // add 1 (one) point to the current score
                                         //TODO: change to addPoints(...) for second sprint
                                         scoreKeeper.addPoint();
@@ -197,7 +200,7 @@ import java.util.ArrayList;
                                         polygon = mMap.addPolygon(new PolygonOptions()
                                                    .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
                                                     new LatLng(vertX[3], vertY[3]))
-                                                    .strokeColor(Color.RED).fillColor(Color.BLUE));
+                                                    .strokeColor(RED_OUTLINE).fillColor(BLUE_BG));
                                      }
                                     //code to change the map center and marker to the building in question
                                     double newX = ((vertX[0] + vertX[2])/2.0);
