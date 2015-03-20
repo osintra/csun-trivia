@@ -39,9 +39,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
     public class MapsActivity extends FragmentActivity {
+
+        // Custom colors
         private static final int BLUE_BG = Color.argb(50,0,0,255);
+        private static final int BLACK_BG = Color.argb(150,0,0,0);
         private static final int GREEN_OUTLINE = Color.argb(100,0,255,0);
         private static final int RED_OUTLINE = Color.argb(100,255,0,0);
+
 
         //TODO: submit the achieved score when the game ends successfully
         private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -212,9 +216,11 @@ import java.util.ArrayList;
                                     //adding the new marker
                                     mMap.addMarker(new MarkerOptions().position(newLatLng).title(label).snippet(label).visible(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
+                                    mMap.getUiSettings().setScrollGesturesEnabled(false);
 
                                     //setting the trivia in place of the question
                                     questionTextView.setText(trivia);
+                                    questionTextView.setBackgroundColor(BLACK_BG);
                                 }
                            }
                       });
