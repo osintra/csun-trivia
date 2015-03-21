@@ -29,11 +29,12 @@
         Victor Perez\n
         Russell Templet\n
         Nishika Malhotra\n
-        Maria Velasquez\n</b>\n
+        Maria Regina Velasquez\n</b>\n
         Our website can be accessed by clicking the button below, which will exit this application and open your web
         browser at our address.</string>
     <string name="credits_website_button">www.nullroute.cc</string>
     <string name="back_button">&lt;- Back</string>
+    <string name="next_question_button">Next Question</string>
     <string name="back_submit_button">Back + Submit Score</string>
     <string name="device_not_supported">Google Play Services APK not supported</string>
     <string name="rules_title">Rules of CSUN Map Trivia Game\n</string>
@@ -41,7 +42,7 @@
         CSUN\'s campus. \nThe goal is to answer all the questions as fast as possible.
         \nAfter clicking the "Play" button, you\'ll be presented with a map of CSUN and a question below it.
         Scroll the map until you find the building you think answers the question best.
-        <u>Long press</u> the building on the map. If your answer is correct, you\'ll see a green boarder surround
+        <b>Long press</b> the building on the map. If your answer is correct, you\'ll see a green boarder surround
         the building you chose. If your answer is wrong, the game will show you the correct answer.
         \nAfter submitting your answer, an informative trivia about CSUN will appear where the question was
         and when you\'re ready for the next question, swipe the screen to the left.

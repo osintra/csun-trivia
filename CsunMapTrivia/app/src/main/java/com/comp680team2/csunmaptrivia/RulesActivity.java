@@ -1,8 +1,6 @@
 package com.comp680team2.csunmaptrivia;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +14,7 @@ public class RulesActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rules_activity);
 
-        Button backButton = (Button)findViewById(R.id.ruleButton1);
+        Button backButton = (Button)findViewById(R.id.rules_back_button);
         backButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)

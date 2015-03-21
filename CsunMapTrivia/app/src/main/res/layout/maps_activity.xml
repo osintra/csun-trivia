@@ -62,4 +62,14 @@
         android:textSize="20dp"
         android:text="Where is my question?!" />
 
+    <!-- if you want the next question button, set visibility to visible  -->
+    <Button
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next_question_button"
+        android:id="@+id/maps_activity_next_button"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

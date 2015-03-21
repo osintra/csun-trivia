@@ -6,7 +6,6 @@
 package com.comp680team2.csunmaptrivia;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +14,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.comp680team2.controller.GameController;
-import com.comp680team2.controller.HttpController;
-import com.comp680team2.model.QuestionHolder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -27,49 +23,43 @@ public class MainActivity extends Activity
     // Request code to invoke the Google Play Services status
     private static int REQUEST_CODE_PLAY_SERVICES = 1001;
 
+    Button playButton = null;
+
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 
-		Button button1 = (Button)findViewById(R.id.mainButton1);
-		button1.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				startActivity(new Intent(getBaseContext(), GameActivity.class));
-			}
-		});
+		Button testerButton = (Button)findViewById(R.id.mainButton1);
+		testerButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext(), GameActivity.class));
+            }
+        });
 
-		Button button2 = (Button)findViewById(R.id.mainButton2);
-		button2.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				startActivity(new Intent(getBaseContext(), ScoreActivity.class));
-			}
-		});
+		Button scoreButton = (Button)findViewById(R.id.mainButton2);
+		scoreButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext(), ScoreActivity.class));
+            }
+        });
 
-		Button button3 = (Button)findViewById(R.id.mainButton3);
-		button3.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				startActivity(new Intent(getBaseContext(), CreditsActivity.class));
-			}
-		});
+		Button creditsButton = (Button)findViewById(R.id.mainButton3);
+		creditsButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext(), CreditsActivity.class));
+            }
+        });
 
-		Button button4 = (Button)findViewById(R.id.mainButton4);
-		button4.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View view)
-			{
+		playButton = (Button)findViewById(R.id.mainButton4);
+		playButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
                 startActivity(new Intent(getBaseContext(), MapsActivity.class));
-			}
-		});
+            }
+        });
 
-        Button button5 = (Button)findViewById(R.id.mainButton5);
-        button5.setOnClickListener(new OnClickListener() {
+        Button rulesButton = (Button)findViewById(R.id.mainButton5);
+        rulesButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
                 startActivity(new Intent(getBaseContext(), RulesActivity.class));
@@ -84,6 +74,7 @@ public class MainActivity extends Activity
         if (requestCode == REQUEST_CODE_PLAY_SERVICES) {
             if (resultCode == RESULT_CANCELED) {
                 Log.d(TAG, "Google Play Services APK is NOT supported");
+                playButton.setEnabled(false);
                 Toast.makeText(this, "Google Play Services must be installed", Toast.LENGTH_SHORT)
                         .show();
             }
@@ -102,6 +93,7 @@ public class MainActivity extends Activity
             if (GooglePlayServicesUtil.isUserRecoverableError(status)) {
                 showErrorDialog(status);
             } else {
+                playButton.setEnabled(false);
                 Toast.makeText(this, R.string.device_not_supported, Toast.LENGTH_LONG).show();
             }
             Log.d(TAG, "checkPlayServices(): end --- Error was not recoverable");
