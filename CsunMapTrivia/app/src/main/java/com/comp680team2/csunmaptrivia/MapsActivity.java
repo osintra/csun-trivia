@@ -74,6 +74,7 @@ public class MapsActivity extends FragmentActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,10 @@ public class MapsActivity extends FragmentActivity {
         {
             public void onClick(View view)
             {
+                // reset flag. The next question has not been answered
                 questionAnsweredAlready = false;
+                // hide next question button
+                nextQuestionButton.setVisibility(View.GONE);
                 setUpQuestion(++questionNumber);
                 //enabling all gestures on the Map back to true
                 mMap.clear();
@@ -194,7 +198,9 @@ public class MapsActivity extends FragmentActivity {
                 finish();
             }
         } else {
-            Toast.makeText(getBaseContext(), "Ran out of questions!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Game Finished! Go to Last Score to see your points", Toast.LENGTH_LONG).show();
+            scoreKeeper.submitCurrentScore();
+            finish();
         }
     }
 
