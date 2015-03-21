@@ -66,6 +66,7 @@ public class MapsActivity extends FragmentActivity {
     private ScoreKeeper scoreKeeper = null;
     private boolean questionAnsweredAlready = false;
     private Button nextQuestionButton = null;
+    private QuestionHolder questionHolder = null;
 
 
     @Override
@@ -136,7 +137,7 @@ public class MapsActivity extends FragmentActivity {
             public void run() {
                 //TODO: show some sort of loading mask
                 // fetch question set
-                final QuestionHolder questionHolder = new GameController().fetchQuestionSet();
+                questionHolder = new GameController().fetchQuestionSet();
                 runOnUiThread(new Runnable() {
                     public void run() {
                         questionTextView.setText(questionHolder.getQuestion(0).getText());
