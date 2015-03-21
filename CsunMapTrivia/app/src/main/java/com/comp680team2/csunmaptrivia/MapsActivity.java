@@ -46,6 +46,7 @@ public class MapsActivity extends FragmentActivity {
     // Custom colors
     private static final int BLUE_BG = Color.argb(50,0,0,255);
     private static final int BLACK_BG = Color.argb(150,0,0,0);
+    private static final int RED_BG = Color.argb(150, 200, 0, 0);
     private static final int GREEN_OUTLINE = Color.argb(100,0,255,0);
     private static final int RED_OUTLINE = Color.argb(100,255,0,0);
 
@@ -87,8 +88,8 @@ public class MapsActivity extends FragmentActivity {
         {
             public void onClick(View view)
             {
-                setUpQuestion(questionNumber);
-                questionNumber++;
+                questionAnsweredAlready = false;
+                setUpQuestion(++questionNumber);
             }
         });
 
@@ -181,6 +182,7 @@ public class MapsActivity extends FragmentActivity {
                 // get current label
                 label = question.getAnswer().getLabel();
                 // update question text view
+                questionTextView.setBackgroundColor(RED_BG);
                 questionTextView.setText(question.getText());
             } catch (Exception setUpQuestionException) {
                 setUpQuestionException.printStackTrace();
@@ -230,8 +232,7 @@ public class MapsActivity extends FragmentActivity {
         LatLng startingLatAndLng = new LatLng(x, y);
         final float startingZoom = 17;
         final int sides = 4;
-        final float tilt = 0;
-        final float bearing = 0;
+
 
         // sets the marker and its label to google map
         myMarker = mMap.addMarker(new MarkerOptions().position(startingLatAndLng).title("CSUN").visible(true));
@@ -262,7 +263,6 @@ public class MapsActivity extends FragmentActivity {
                         // add 1 (one) point to the current score
                         //TODO: change to addPoints(...) for second sprint
                         scoreKeeper.addPoint();
-
                         // update the score text view
                         scoreTextView.setText("Score: " + String.valueOf(scoreKeeper.getCurrentScore()));
 
