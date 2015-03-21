@@ -90,6 +90,10 @@ public class MapsActivity extends FragmentActivity {
             {
                 questionAnsweredAlready = false;
                 setUpQuestion(++questionNumber);
+                //enabling all gestures on the Map back to true
+                mMap.clear();
+                mMap.getUiSettings().setAllGesturesEnabled(true);
+                setUpMap();
             }
         });
 
@@ -231,13 +235,21 @@ public class MapsActivity extends FragmentActivity {
         double y = -118.529435;
         LatLng startingLatAndLng = new LatLng(x, y);
         final float startingZoom = 17;
-        final int sides = 4;
-
-
         // sets the marker and its label to google map
         myMarker = mMap.addMarker(new MarkerOptions().position(startingLatAndLng).title("CSUN").visible(true));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startingLatAndLng, startingZoom));
+        onMapClickValidation();
+    }
 
+    /**
+     -     * This function registers an onLongClick event on the map and then calls the validation method to
+     -     * check if the click is inside the right areas and adds the polygon and marker on the map
+     -     * <p/>
+     -     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     -     */
+    public void onMapClickValidation(){
+
+        final int sides = 4;
         // register a long click/press map event on the google map
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
@@ -288,7 +300,7 @@ public class MapsActivity extends FragmentActivity {
                     mMap.addMarker(new MarkerOptions().position(newLatLng).title(label).snippet(label).visible(true));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
                     mMap.getUiSettings().setAllGesturesEnabled(false);
-
+                    mMap.getUiSettings().setMapToolbarEnabled(false);
                     //setting the trivia in place of the question
                     questionTextView.setText(trivia);
                     questionTextView.setBackgroundColor(BLACK_BG);
