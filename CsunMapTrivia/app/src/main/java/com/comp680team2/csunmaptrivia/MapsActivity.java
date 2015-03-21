@@ -61,8 +61,8 @@ public class MapsActivity extends FragmentActivity {
     private TextView questionTextView = null;
     private TextView scoreTextView = null;
     private Polygon polygon = null;
-    private String trivia = null;
-    private String label = null;
+    private String trivia = "";
+    private String label = "";
     private Marker myMarker;
     private ScoreKeeper scoreKeeper = null;
     private boolean questionAnsweredAlready = false;
@@ -145,7 +145,7 @@ public class MapsActivity extends FragmentActivity {
                 questionHolder = new GameController().fetchQuestionSet();
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        setUpQuestion(0);
+                        setUpQuestion(questionNumber);
                     }
                 });
             }
@@ -159,39 +159,36 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpQuestion(int questionIndex) {
         Question question;
-        //nextQuestionButton.setVisibility(View.GONE);
-        mMap.getUiSettings().setAllGesturesEnabled(true);
 
-        //TODO: check that the index is not out of boundaries
-
-
-        try {
-            // get current question from holder at index
-            question = questionHolder.getQuestion(questionIndex);
-
-            // get current expected answer corner coordinates
-            for (int i = 0; i < 4; i++) {
-                vertX[i] = question.getAnswer().getCoordinate(i).getX();
-                vertY[i] = question.getAnswer().getCoordinate(i).getY();
+        // check that the index is not out of bounds
+        if (questionIndex < questionHolder.getNumberOfQuestions()) {
+            try {
+                // get current question from holder at index
+                question = questionHolder.getQuestion(questionIndex);
+                // get current expected answer corner coordinates
+                for (int i = 0; i < 4; i++) {
+                    vertX[i] = question.getAnswer().getCoordinate(i).getX();
+                    vertY[i] = question.getAnswer().getCoordinate(i).getY();
+                }
+                // get current trivia
+                if (question.getTrivia() != null) {
+                    trivia = question.getTrivia();
+                } else if (question.getTrivia() == "") {
+                    trivia = "Trivia was empty";
+                } else {
+                    trivia = "NULL trivia for this question";
+                }
+                // get current label
+                label = question.getAnswer().getLabel();
+                // update question text view
+                questionTextView.setText(question.getText());
+            } catch (Exception setUpQuestionException) {
+                setUpQuestionException.printStackTrace();
+                Toast.makeText(getBaseContext(), "Exception setting up question", Toast.LENGTH_LONG).show();
+                finish();
             }
-
-            // get current trivia
-            if (question.getTrivia() != null) {
-                trivia = question.getTrivia();
-            } else {
-                trivia = "No trivia for this question";
-            }
-
-            // get current label
-            label = question.getAnswer().getLabel();
-            // update question text view
-            questionTextView.setText(question.getText());
-
-        } catch (Exception setUpQuestionException) {
-            setUpQuestionException.printStackTrace();
-            // end maps activity
-            Toast.makeText(getBaseContext(), "Ran out of questions", Toast.LENGTH_SHORT).show();
-            finish();
+        } else {
+            Toast.makeText(getBaseContext(), "Ran out of questions!", Toast.LENGTH_SHORT).show();
         }
     }
 
