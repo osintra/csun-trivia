@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.comp680team2.controller.GameController;
+import com.comp680team2.model.Question;
 import com.comp680team2.model.QuestionHolder;
 import com.comp680team2.model.ScoreKeeper;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -51,22 +52,25 @@ public class MapsActivity extends FragmentActivity {
 
     //TODO: submit the achieved score when the game ends successfully
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    double pressedLatitude = 0;
-    double pressedLongitude = 0;
-    double vertX[] = new double[4];
-    double vertY[] = new double[4];
-    int seconds = 10;
-    TextView timerTextView = null;
-    TextView questionTextView = null;
-    TextView scoreTextView = null;
-    Polygon polygon = null;
-    String trivia = null;
-    String label = null;
-    Marker myMarker;
+    private double pressedLatitude = 0;
+    private double pressedLongitude = 0;
+    private double vertX[] = new double[4];
+    private double vertY[] = new double[4];
+    private int seconds = 10;
+    private TextView timerTextView = null;
+    private TextView questionTextView = null;
+    private TextView scoreTextView = null;
+    private Polygon polygon = null;
+    private String trivia = null;
+    private String label = null;
+    private Marker myMarker;
     private ScoreKeeper scoreKeeper = null;
     private boolean questionAnsweredAlready = false;
     private Button nextQuestionButton = null;
     private QuestionHolder questionHolder = null;
+    private int questionNumber = 0;
+
+
 
 
     @Override
@@ -83,8 +87,8 @@ public class MapsActivity extends FragmentActivity {
         {
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "No next Q yet", Toast.LENGTH_SHORT).show();
-                finish();
+                setUpQuestion(questionNumber);
+                questionNumber++;
             }
         });
 
@@ -114,6 +118,7 @@ public class MapsActivity extends FragmentActivity {
     }
 
 
+
     // If the game activity is stopped, the game ends
     // the score is reset without being submitted
     @Override
@@ -126,7 +131,7 @@ public class MapsActivity extends FragmentActivity {
 
 
     @Override
-    protected void onResume() {
+    protected void onStart() {
         super.onResume();
         setUpMapIfNeeded();
     }
@@ -140,24 +145,54 @@ public class MapsActivity extends FragmentActivity {
                 questionHolder = new GameController().fetchQuestionSet();
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        questionTextView.setText(questionHolder.getQuestion(0).getText());
+                        setUpQuestion(0);
                     }
                 });
-                try {
-                    for (int i = 0; i < 4; i++) {
-                        vertX[i] = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getX();
-                        vertY[i] = questionHolder.getQuestion(0).getAnswer().getCoordinate(i).getY();
-                    }
-                    if(questionHolder.getQuestion(0).getTrivia() != null) {
-                        trivia = questionHolder.getQuestion(0).getTrivia();
-                    }
-                    label = questionHolder.getQuestion(0).getAnswer().getLabel();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
             }
         });
         initThread.start();
+    }
+
+    /**
+     * Set up the question object for the next question/answer cycle of the game
+     * @param questionIndex
+     */
+    private void setUpQuestion(int questionIndex) {
+        Question question;
+        //nextQuestionButton.setVisibility(View.GONE);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
+
+        //TODO: check that the index is not out of boundaries
+
+
+        try {
+            // get current question from holder at index
+            question = questionHolder.getQuestion(questionIndex);
+
+            // get current expected answer corner coordinates
+            for (int i = 0; i < 4; i++) {
+                vertX[i] = question.getAnswer().getCoordinate(i).getX();
+                vertY[i] = question.getAnswer().getCoordinate(i).getY();
+            }
+
+            // get current trivia
+            if (question.getTrivia() != null) {
+                trivia = question.getTrivia();
+            } else {
+                trivia = "No trivia for this question";
+            }
+
+            // get current label
+            label = question.getAnswer().getLabel();
+            // update question text view
+            questionTextView.setText(question.getText());
+
+        } catch (Exception setUpQuestionException) {
+            setUpQuestionException.printStackTrace();
+            // end maps activity
+            Toast.makeText(getBaseContext(), "Ran out of questions", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
 
