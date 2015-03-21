@@ -254,12 +254,13 @@ public class MapsActivity extends FragmentActivity {
                     //adding the new marker
                     mMap.addMarker(new MarkerOptions().position(newLatLng).title(label).snippet(label).visible(true));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
-                    mMap.getUiSettings().setScrollGesturesEnabled(false);
+                    mMap.getUiSettings().setAllGesturesEnabled(false);
 
                     //setting the trivia in place of the question
                     questionTextView.setText(trivia);
                     questionTextView.setBackgroundColor(BLACK_BG);
                     nextQuestionButton.setVisibility(View.VISIBLE);
+                    nextQuestionButton.bringToFront();
                 }
             }
         });
