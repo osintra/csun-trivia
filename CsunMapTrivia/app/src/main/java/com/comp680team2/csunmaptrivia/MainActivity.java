@@ -6,7 +6,10 @@
 package com.comp680team2.csunmaptrivia;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +25,8 @@ public class MainActivity extends Activity
     private final String TAG = "mapTrivia";
     // Request code to invoke the Google Play Services status
     private static int REQUEST_CODE_PLAY_SERVICES = 1001;
+    private ConnectivityManager connectivityManager = null;
+    private NetworkInfo activeNetwork = null;
 
     Button playButton = null;
 
@@ -29,6 +34,10 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+
+        // initialize connectivity manager and get network information
+        connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        activeNetwork = connectivityManager.getActiveNetworkInfo();
 
 		Button testerButton = (Button)findViewById(R.id.mainButton1);
 		testerButton.setOnClickListener(new OnClickListener() {
@@ -67,6 +76,12 @@ public class MainActivity extends Activity
         });
 
         checkPlayServices();
+
+        // check the network connection
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+        } else {
+            playButton.setEnabled(false);
+        }
 	}
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){

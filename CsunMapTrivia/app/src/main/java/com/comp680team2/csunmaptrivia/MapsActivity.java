@@ -70,6 +70,7 @@ public class MapsActivity extends FragmentActivity {
     private Button nextQuestionButton = null;
     private QuestionHolder questionHolder = null;
     private int questionNumber = 0;
+    private boolean gameEndedSuccessfully = false;
 
 
 
@@ -132,8 +133,10 @@ public class MapsActivity extends FragmentActivity {
     // the score is reset without being submitted
     @Override
     public void onStop() {
-        Toast.makeText(this, "Quitting Game", Toast.LENGTH_SHORT).show();
         super.onStop();
+        if (!gameEndedSuccessfully) {
+            Toast.makeText(this, "Quitting Game Before Finishing", Toast.LENGTH_LONG).show();
+        }
         scoreKeeper.resetCurrentScore();
         finish();
     }
@@ -181,7 +184,7 @@ public class MapsActivity extends FragmentActivity {
                 }
                 // get current trivia
                 if (question.getTrivia() != null) {
-                    trivia = question.getTrivia();
+                    trivia = "Trivia: " + question.getTrivia();
                 } else if (question.getTrivia() == "") {
                     trivia = "Trivia was empty";
                 } else {
@@ -191,13 +194,14 @@ public class MapsActivity extends FragmentActivity {
                 label = question.getAnswer().getLabel();
                 // update question text view
                 questionTextView.setBackgroundColor(RED_BG);
-                questionTextView.setText(question.getText());
+                questionTextView.setText("Q: " + question.getText());
             } catch (Exception setUpQuestionException) {
                 setUpQuestionException.printStackTrace();
                 Toast.makeText(getBaseContext(), "Exception setting up question", Toast.LENGTH_LONG).show();
                 finish();
             }
         } else {
+            gameEndedSuccessfully = true;
             Toast.makeText(getBaseContext(), "Game Finished! Go to Last Score to see your points", Toast.LENGTH_LONG).show();
             scoreKeeper.submitCurrentScore();
             finish();

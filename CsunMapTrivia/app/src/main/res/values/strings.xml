@@ -7,7 +7,7 @@
     <string name="main_game_tester_button">Tester</string>
     <string name="main_score_button">Last Score</string>
     <string name="main_credits_button">Credits</string>
-    <string name="main_start_game_button">Play[Debugging]</string>
+    <string name="main_start_game_button">Play New Game</string>
     <string name="main_copyright">&#169; 2015 Comp 680 Team 2</string>
     <string name="title_activity_game">Game Activity</string>
     <string name="game_image">pseudo_map.png</string>
@@ -45,7 +45,7 @@
         <b>Long press</b> the building on the map. If your answer is correct, you\'ll see a green boarder surround
         the building you chose. If your answer is wrong, the game will show you the correct answer.
         \nAfter submitting your answer, an informative trivia about CSUN will appear where the question was
-        and when you\'re ready for the next question, swipe the screen to the left.
+        and when you\'re ready for the next question, click the Next Question button at the top the screen.
         \nOne thing though. If by any reason, the game is sent to the background you\'ll loose your
         points and will have to start a new game. Sorry, but we want to avoid cheating.
         \n\nThink YOU got what it takes to master CSUN Map Trivia?</string>
