@@ -50,6 +50,8 @@ public class MapsActivity extends FragmentActivity {
     private static final int GREEN_OUTLINE = Color.argb(100,0,255,0);
     private static final int RED_OUTLINE = Color.argb(100,255,0,0);
 
+    private final int MAX_SECONDS = 20;
+
 
     //TODO: submit the achieved score when the game ends successfully
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -57,7 +59,7 @@ public class MapsActivity extends FragmentActivity {
     private double pressedLongitude = 0;
     private double vertX[] = new double[4];
     private double vertY[] = new double[4];
-    private int seconds = 10;
+    private int seconds = MAX_SECONDS;
     private TextView timerTextView = null;
     private TextView questionTextView = null;
     private TextView scoreTextView = null;
@@ -103,28 +105,6 @@ public class MapsActivity extends FragmentActivity {
         });
 
         initializeGame();
-
-        Thread backgroundThread = new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    synchronized (this) {
-                        try {
-                            wait(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                timerTextView.setText(Integer.toString(seconds));
-                                if (seconds > 0) seconds--;
-                            }
-                        });
-                    }
-                }
-            }
-        });
-        backgroundThread.start();
     }
 
 
@@ -158,6 +138,7 @@ public class MapsActivity extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         setUpQuestion(questionNumber);
+                        setUpTimer();
                     }
                 });
             }
@@ -171,6 +152,7 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpQuestion(int questionIndex) {
         Question question;
+        seconds = MAX_SECONDS;
 
         // check that the index is not out of bounds
         if (questionIndex < questionHolder.getNumberOfQuestions()) {
@@ -206,6 +188,34 @@ public class MapsActivity extends FragmentActivity {
             scoreKeeper.submitCurrentScore();
             finish();
         }
+    }
+
+    private void setUpTimer() {
+        Thread timerThread = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    synchronized (this) {
+                        try {
+                            wait(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                timerTextView.setText(Integer.toString(seconds));
+                                if (seconds > 0 && !questionAnsweredAlready) {
+                                    seconds--;
+                                } else if (seconds == 0) {
+                                    //fail the question
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+        timerThread.start();
     }
 
 
