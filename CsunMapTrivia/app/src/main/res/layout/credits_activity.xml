@@ -39,13 +39,15 @@
         android:layout_height="wrap_content"
         android:text="@string/credits_website_button"
         android:id="@+id/creditsButton1"
-        android:layout_above="@+id/creditsButton2"
+        android:layout_below="@+id/creditsTextView2"
         android:layout_centerHorizontal="true"/>
 
+    <!-- if you want the back button, set the visibility to visible -->
     <Button
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/creditsButton1"
         android:text="@string/back_button"
         android:id="@+id/creditsButton2"
         android:layout_alignParentBottom="true"

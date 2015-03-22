@@ -40,7 +40,8 @@
 
 
 
-    <!-- if you want the back button, set visibility to visible  -->
+    <!-- if you want the back button, set visibility to visible, but
+      it will overlay the text view-->
     <Button
         android:visibility="gone"
         android:layout_width="wrap_content"

@@ -84,6 +84,9 @@ public class MainActivity extends Activity
         }
 	}
 
+    //TODO: extract network connection check point to method
+    //TODO: Add a network connection monitor so that the Play button becomes enabled when the network connection is restored
+
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         // Handle the result of the Google Play Services resolution
         if (requestCode == REQUEST_CODE_PLAY_SERVICES) {
