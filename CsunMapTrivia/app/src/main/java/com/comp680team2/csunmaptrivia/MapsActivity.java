@@ -51,6 +51,7 @@ public class MapsActivity extends FragmentActivity {
     private static final int RED_OUTLINE = Color.argb(100,255,0,0);
 
     private final int MAX_SECONDS = 20;
+    private final boolean SPRINT_ONE_PRESENTATION = true;
 
 
     //TODO: submit the achieved score when the game ends successfully
@@ -138,7 +139,11 @@ public class MapsActivity extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         setUpQuestion(questionNumber);
-                        setUpTimer();
+                        if (SPRINT_ONE_PRESENTATION) {
+                            timerTextView.setText(" ");
+                        } else {
+                            setUpTimer();
+                        }
                     }
                 });
             }
