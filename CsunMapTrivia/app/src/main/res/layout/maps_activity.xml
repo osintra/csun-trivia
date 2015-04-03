@@ -62,6 +62,16 @@
         android:textSize="20dp"
         android:text="Where is my question?!" />
 
+    <TextView
+        android:id="@+id/maps_activity_difficultyTextView"
+        android:layout_width="75dp"
+        android:layout_height="20dp"
+        android:text=""
+        android:layout_below="@+id/maps_activity_scoreTextView"
+        android:layout_alignRight="@+id/maps_activity_scoreTextView"
+        android:layout_alignEnd="@+id/maps_activity_scoreTextView"
+        />
+
     <!-- if you want the next question button, set visibility to visible  -->
     <Button
         android:visibility="gone"

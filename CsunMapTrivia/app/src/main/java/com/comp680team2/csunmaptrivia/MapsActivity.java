@@ -43,15 +43,23 @@ import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity {
 
-    // Custom colors
+    // Rect/view background colors
     private static final int BLUE_BG = Color.argb(50,0,0,255);
     private static final int BLACK_BG = Color.argb(150,0,0,0);
     private static final int RED_BG = Color.argb(150, 200, 0, 0);
+
+    //Rect border colors
     private static final int GREEN_OUTLINE = Color.argb(100,0,255,0);
     private static final int RED_OUTLINE = Color.argb(100,255,0,0);
 
+    //Difficulty colors
+    private static final int EASY_COLOR = Color.argb(200,0,255,0);
+    private static final int MEDIUM_COLOR = Color.argb(200,255,255,0);
+    private static final int HARD_COLOR = Color.argb(200,255,0,0);
+    private static final int EXTREME_COLOR = Color.argb(200,255,50,50);
+
     private final int MAX_SECONDS = 20;
-    private final boolean SPRINT_ONE_PRESENTATION = true;
+    private final boolean SPRINT_ONE_PRESENTATION = false;
 
 
     //TODO: submit the achieved score when the game ends successfully
@@ -64,6 +72,7 @@ public class MapsActivity extends FragmentActivity {
     private TextView timerTextView = null;
     private TextView questionTextView = null;
     private TextView scoreTextView = null;
+    private TextView difficultyTextView = null;
     private Polygon polygon = null;
     private String trivia = "";
     private String label = "";
@@ -74,6 +83,7 @@ public class MapsActivity extends FragmentActivity {
     private QuestionHolder questionHolder = null;
     private int questionNumber = 0;
     private boolean gameEndedSuccessfully = false;
+    private Thread timerThread = null;
 
 
 
@@ -87,6 +97,7 @@ public class MapsActivity extends FragmentActivity {
         questionTextView = (TextView) findViewById(R.id.maps_activity_questionTextView);
         scoreTextView = (TextView) findViewById(R.id.maps_activity_scoreTextView);
         scoreKeeper = ScoreKeeper.getScoreKeeperSingleton();
+        difficultyTextView = (TextView) findViewById(R.id.maps_activity_difficultyTextView);
         nextQuestionButton = (Button) findViewById(R.id.maps_activity_next_button);
 
         nextQuestionButton.setOnClickListener(new View.OnClickListener()
@@ -182,6 +193,8 @@ public class MapsActivity extends FragmentActivity {
                 // update question text view
                 questionTextView.setBackgroundColor(RED_BG);
                 questionTextView.setText("Q: " + question.getText());
+                // update difficulty view
+                setUpDifficulty(question.getDifficulty());
             } catch (Exception setUpQuestionException) {
                 setUpQuestionException.printStackTrace();
                 Toast.makeText(getBaseContext(), "Exception setting up question", Toast.LENGTH_LONG).show();
@@ -195,15 +208,40 @@ public class MapsActivity extends FragmentActivity {
         }
     }
 
+    private void setUpDifficulty(int difficulty) {
+        int difficultyColor = BLACK_BG;
+        String difficultyText = "Difficulty";
+        switch(difficulty) {
+            case 0:
+                difficultyColor = EASY_COLOR;
+                difficultyText = "Easy";
+                break;
+            case 1:
+                difficultyColor = MEDIUM_COLOR;
+                difficultyText = "Medium";
+                break;
+            case 2:
+                difficultyColor = HARD_COLOR;
+                difficultyText = "Hard";
+                break;
+            case 3:
+                difficultyColor = EXTREME_COLOR;
+                difficultyText = "Extreme";
+                break;
+        }
+        difficultyTextView.setText(difficultyText);
+        difficultyTextView.setTextColor(difficultyColor);
+    }
+
     private void setUpTimer() {
-        Thread timerThread = new Thread(new Runnable() {
+        timerThread = new Thread(new Runnable() {
             public void run() {
                 while (true) {
                     synchronized (this) {
                         try {
                             wait(1000);
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            //Timer should not tick down :)
                         }
                         runOnUiThread(new Runnable() {
                             @Override
@@ -311,6 +349,9 @@ public class MapsActivity extends FragmentActivity {
                                         new LatLng(vertX[3], vertY[3]))
                                 .strokeColor(RED_OUTLINE).fillColor(BLUE_BG));
                     }
+
+                    //stop the timer thread while it's sleeping
+                    timerThread.interrupt();
 
                     // change the map center and marker to the building in question
                     double newX = ((vertX[0] + vertX[2])/2.0);
