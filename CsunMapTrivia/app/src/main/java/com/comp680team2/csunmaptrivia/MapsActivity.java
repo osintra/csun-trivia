@@ -68,7 +68,6 @@ public class MapsActivity extends FragmentActivity {
     private double pressedLongitude = 0;
     private double vertX[] = new double[4];
     private double vertY[] = new double[4];
-    private int seconds = MAX_SECONDS;
     private TextView timerTextView = null;
     private TextView questionTextView = null;
     private TextView scoreTextView = null;
@@ -82,6 +81,8 @@ public class MapsActivity extends FragmentActivity {
     private Button nextQuestionButton = null;
     private QuestionHolder questionHolder = null;
     private int questionNumber = 0;
+    private double remainingTime = 0;
+    String timeDisplay = "";
     private boolean gameEndedSuccessfully = false;
     private Thread timerThread = null;
 
@@ -149,6 +150,7 @@ public class MapsActivity extends FragmentActivity {
                 questionHolder = new GameController().fetchQuestionSet();
                 runOnUiThread(new Runnable() {
                     public void run() {
+                        updateScoreView();
                         setUpQuestion(questionNumber);
                         if (SPRINT_ONE_PRESENTATION) {
                             timerTextView.setText(" ");
@@ -168,7 +170,7 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpQuestion(int questionIndex) {
         Question question;
-        seconds = MAX_SECONDS;
+        remainingTime = MAX_SECONDS;
 
         // check that the index is not out of bounds
         if (questionIndex < questionHolder.getNumberOfQuestions()) {
@@ -239,26 +241,38 @@ public class MapsActivity extends FragmentActivity {
                 while (true) {
                     synchronized (this) {
                         try {
-                            wait(1000);
+                            wait(1);
                         } catch (InterruptedException e) {
-                            //Timer should not tick down :)
+                            //timer stops
                         }
+                        timeDisplay = String.format("%.2f", Math.abs(remainingTime));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                timerTextView.setText(Integer.toString(seconds));
-                                if (seconds > 0 && !questionAnsweredAlready) {
-                                    seconds--;
-                                } else if (seconds == 0) {
-                                    //fail the question
-                                }
+                                timerTextView.setText(timeDisplay);
                             }
                         });
+                        if (remainingTime > .005 && !questionAnsweredAlready) {
+                            remainingTime -= 0.01;
+                        } else if (!questionAnsweredAlready) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    handleUserResponse(false);  //question is failed when time is up
+                                }
+                            });
+                        }
                     }
                 }
             }
         });
         timerThread.start();
+    }
+
+
+    // reusable score view refresh
+    private void updateScoreView() {
+        scoreTextView.setText("Score: " + String.valueOf(scoreKeeper.getCurrentScore()));
     }
 
 
@@ -324,57 +338,57 @@ public class MapsActivity extends FragmentActivity {
                 // check that pressed coordinates are not zero and that the question has not been answered already
                 if (!(MapsActivity.this.pressedLatitude == 0.0 && MapsActivity.this.pressedLongitude == 0.0)
                         && !questionAnsweredAlready){
-                    questionAnsweredAlready = true; // avoid adding extra points by clicking repeatedly
 
                     // check if long press coordinates are within the answer area
                     boolean myResult = findInPolygon(sides, vertX, vertY, MapsActivity.this.pressedLatitude, MapsActivity.this.pressedLongitude);
-                    if (myResult) {
-                        // add new polygon on map
-                        polygon = mMap.addPolygon(new PolygonOptions()
-                                .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
-                                        new LatLng(vertX[3], vertY[3]))
-                                .strokeColor(GREEN_OUTLINE).fillColor(BLUE_BG));
 
-                        // add 1 (one) point to the current score
-                        //TODO: change to addPoints(...) for second sprint
-                        scoreKeeper.addPoint();
-                        // update the score text view
-                        scoreTextView.setText("Score: " + String.valueOf(scoreKeeper.getCurrentScore()));
-
-
-                    } else {
-                        // add new polygon on map
-                        polygon = mMap.addPolygon(new PolygonOptions()
-                                .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
-                                        new LatLng(vertX[3], vertY[3]))
-                                .strokeColor(RED_OUTLINE).fillColor(BLUE_BG));
-                    }
-
-                    //stop the timer thread while it's sleeping
-                    timerThread.interrupt();
-
-                    // change the map center and marker to the building in question
-                    double newX = ((vertX[0] + vertX[2])/2.0);
-                    double newY = ((vertY[0] + vertY[1])/2.0);
-                    LatLng newLatLng = new LatLng(newX, newY);
-                    LatLng newLatLng1 = new LatLng(vertX[0], vertY[0]);
-
-                    //removing the old marker
-                    myMarker.remove();
-
-                    //adding the new marker
-                    mMap.addMarker(new MarkerOptions().position(newLatLng).title(label).snippet(label).visible(true));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
-                    mMap.getUiSettings().setAllGesturesEnabled(false);
-                    mMap.getUiSettings().setMapToolbarEnabled(false);
-                    //setting the trivia in place of the question
-                    questionTextView.setText(trivia);
-                    questionTextView.setBackgroundColor(BLACK_BG);
-                    nextQuestionButton.setVisibility(View.VISIBLE);
-                    nextQuestionButton.bringToFront();
+                    // handles the user response based on whether it is right or wrong
+                    handleUserResponse(myResult);
                 }
             }
         });
+    }
+
+    private void handleUserResponse(boolean isCorrect) {
+        questionAnsweredAlready = true; // avoid adding extra points by clicking repeatedly
+
+        // add new polygon on map
+        int outlineColor = isCorrect ? GREEN_OUTLINE : RED_OUTLINE;
+        polygon = mMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
+                        new LatLng(vertX[3], vertY[3]))
+                .strokeColor(outlineColor).fillColor(BLUE_BG));
+        if (isCorrect) {
+            int score = calculateScore();
+            scoreKeeper.addPoints(score);
+            // update the score text view
+            updateScoreView();
+        }
+
+        //stop timer
+        if (!timerThread.isInterrupted()) {
+            timerThread.interrupt();
+        }
+
+        // change the map center and marker to the building in question
+        double newX = ((vertX[0] + vertX[2])/2.0);
+        double newY = ((vertY[0] + vertY[1])/2.0);
+        LatLng newLatLng = new LatLng(newX, newY);
+        LatLng newLatLng1 = new LatLng(vertX[0], vertY[0]);
+
+        //removing the old marker
+        myMarker.remove();
+
+        //adding the new marker
+        mMap.addMarker(new MarkerOptions().position(newLatLng).title(label).snippet(label).visible(true));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
+        mMap.getUiSettings().setAllGesturesEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        //setting the trivia in place of the question
+        questionTextView.setText(trivia);
+        questionTextView.setBackgroundColor(BLACK_BG);
+        nextQuestionButton.setVisibility(View.VISIBLE);
+        nextQuestionButton.bringToFront();
     }
 
 
@@ -426,6 +440,13 @@ public class MapsActivity extends FragmentActivity {
             }
         }
         return flag;
+    }
+
+
+    // calculates score based on difficulty as a coefficient and remaining time
+    private int calculateScore() {
+        int difficulty = questionHolder.getQuestion(questionNumber).getDifficulty();
+        return (int)(remainingTime * 100) * (difficulty + 1); // scoring formula
     }
 
 
