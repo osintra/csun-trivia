@@ -32,7 +32,7 @@ public class GameController {
     }
 
     public QuestionHolder fetchQuestionSet() {
-        String json = httpController.makeGetRequest("http://nullroute.cc/rest_test/knowYourCampus/trivia_frenzy.php");
+        String json = httpController.makeGetRequest("http://nullroute.cc/rest_test/knowYourCampus/fetch_game_config.php");
         Map<String, Object> responseObj = new JSONDeserializer<Map<String, Object>>().deserialize(json);
 
         return constructQuestionHolder(responseObj);

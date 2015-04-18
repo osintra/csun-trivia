@@ -245,7 +245,11 @@ public class PlayActivity extends FragmentActivity {
                         } catch (InterruptedException e) {
                             //timer stops
                         }
-                        timeDisplay = String.format("%d", (int)Math.abs(remainingTime));
+                        if (questionAnsweredAlready) {
+                            timeDisplay = String.format("%.3f", Math.abs(remainingTime));
+                        } else {
+                            timeDisplay = String.format("%d", (int) Math.abs(remainingTime));
+                        }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
