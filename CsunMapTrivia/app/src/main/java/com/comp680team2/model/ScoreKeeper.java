@@ -1,6 +1,6 @@
 package com.comp680team2.model;
 
-import com.comp680team2.csunmaptrivia.ScoreActivity;
+import com.comp680team2.csunmaptrivia.SubmitActivity;
 
 /**
  * This singleton class keeps the game's current score. The current score is supposed to be updated
@@ -61,7 +61,7 @@ public final class ScoreKeeper {
      * Submit current score
      */
     public void submitCurrentScore() {
-        ScoreActivity.setScoreToDisplay(currentScore);
+        SubmitActivity.setScoreToDisplay(currentScore);
     }
     //TODO: implement Google Play leaderboard current score submission for second sprint
 }

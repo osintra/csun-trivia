@@ -1,6 +1,6 @@
 /* Chris Bowles, Victor Perez, Russell Templet, Nishika Malhotra, Maria Velasquez
 - * Comp 680, Team 2, Spring 2015, Prof. Boctor
-- * MapsActivity.java
+- * PlayActivity.java
 - */
 
 package com.comp680team2.csunmaptrivia;
@@ -41,7 +41,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity {
+public class PlayActivity extends FragmentActivity {
 
     // Rect/view background colors
     private static final int BLUE_BG = Color.argb(50,0,0,255);
@@ -93,7 +93,7 @@ public class MapsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.maps_activity);
+        setContentView(R.layout.play_activity);
         timerTextView = (TextView) findViewById(R.id.maps_activity_timerTextView);
         questionTextView = (TextView) findViewById(R.id.maps_activity_questionTextView);
         scoreTextView = (TextView) findViewById(R.id.maps_activity_scoreTextView);
@@ -204,7 +204,7 @@ public class MapsActivity extends FragmentActivity {
             }
         } else {
             gameEndedSuccessfully = true;
-            Toast.makeText(getBaseContext(), "Game Finished! Go to Last Score to see your points", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Game Finished! Remember to SUBMIT your score!", Toast.LENGTH_LONG).show();
             scoreKeeper.submitCurrentScore();
             finish();
         }
@@ -245,7 +245,7 @@ public class MapsActivity extends FragmentActivity {
                         } catch (InterruptedException e) {
                             //timer stops
                         }
-                        timeDisplay = String.format("%.2f", Math.abs(remainingTime));
+                        timeDisplay = String.format("%d", (int)Math.abs(remainingTime));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -274,6 +274,17 @@ public class MapsActivity extends FragmentActivity {
     private void updateScoreView() {
         scoreTextView.setText("Score: " + String.valueOf(scoreKeeper.getCurrentScore()));
     }
+
+	//TODO: this will update, but then immediately be overwritten - fix this!
+	private void showMillisecondTime() {
+		timeDisplay = String.format("%.2f0", Math.abs(remainingTime));
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				timerTextView.setText(timeDisplay);
+			}
+		});
+	}
 
 
     /**
@@ -332,15 +343,15 @@ public class MapsActivity extends FragmentActivity {
 
             @Override
             public void onMapLongClick(final LatLng point) {
-                MapsActivity.this.pressedLatitude = point.latitude;
-                MapsActivity.this.pressedLongitude = point.longitude;
+                PlayActivity.this.pressedLatitude = point.latitude;
+                PlayActivity.this.pressedLongitude = point.longitude;
 
                 // check that pressed coordinates are not zero and that the question has not been answered already
-                if (!(MapsActivity.this.pressedLatitude == 0.0 && MapsActivity.this.pressedLongitude == 0.0)
+                if (!(PlayActivity.this.pressedLatitude == 0.0 && PlayActivity.this.pressedLongitude == 0.0)
                         && !questionAnsweredAlready){
 
                     // check if long press coordinates are within the answer area
-                    boolean myResult = findInPolygon(sides, vertX, vertY, MapsActivity.this.pressedLatitude, MapsActivity.this.pressedLongitude);
+                    boolean myResult = findInPolygon(sides, vertX, vertY, PlayActivity.this.pressedLatitude, PlayActivity.this.pressedLongitude);
 
                     // handles the user response based on whether it is right or wrong
                     handleUserResponse(myResult);
@@ -358,6 +369,7 @@ public class MapsActivity extends FragmentActivity {
                 .add(new LatLng(vertX[0], vertY[0]), new LatLng(vertX[1], vertY[1]), new LatLng(vertX[2], vertY[2]),
                         new LatLng(vertX[3], vertY[3]))
                 .strokeColor(outlineColor).fillColor(BLUE_BG));
+		showMillisecondTime();
         if (isCorrect) {
             int score = calculateScore();
             scoreKeeper.addPoints(score);

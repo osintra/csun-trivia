@@ -1,29 +1,48 @@
 <resources>
-    <string name="app_name">CSUN Map Trivia</string>
-    <string name="main_title">Welcome to the\nCSUN Map Trivia game!</string>
-    <string name="main_description">If this is your first time playing, please check the
-    game rules</string>
-    <string name="main_rules_button">Game Rules</string>
-    <string name="main_game_tester_button">Tester</string>
-    <string name="main_score_button">Last Score</string>
-    <string name="main_credits_button">Credits</string>
-    <string name="main_start_game_button">Play New Game</string>
-    <string name="main_copyright">&#169; 2015 Comp 680 Team 2</string>
-    <string name="title_activity_game">Game Activity</string>
-    <string name="game_image">pseudo_map.png</string>
-    <string name="game_question">Question #00</string>
-    <string name="game_score">Score: 000000</string>
-    <string name="game_time">Time: 0.000</string>
-    <string name="game_description">*\n*\n*</string>
-    <string name="score_title">Last Score</string>
-    <string name="score_description">Score: 0</string>
-    <string name="credits_title">About CSUN Map Trivia</string>
-    <string name="credits_description">CSUN Map Trivia is an\n
+    <string name="app_name">Know Your Campus</string>
+    <string name="main_title">Welcome to <b>Know Your Campus</b>:\nCSUN\'s official map trivia game!</string>
+    <string name="main_description">Press <i>Rules</i> if this is your first time.\nPress <i>Play</i> to start the
+        game.\nPress <i>Submit</i> to send scores to the leaderboard.</string>
+    <string name="main_copyright">&#169; 2015 Comp 680 Team 2\n&#169; 2015 App Jam Team 12</string>
+    <string name="rules_title">Rules</string>
+    <string name="rules_text">In this game, players are presented with a randomized set of descriptive questions about
+        the buildings on CSUN\'s campus. The goal is to answer all the questions correctly as fast as possible.\n\n
+        After pressing the <i>Play</i> button, players will be presented with a map of CSUN and a question below it.
+        They must scroll the map until they find the building they think answers the question best. Players must then
+        \"long press\" the building on the map.\n\n
+        If their answer is correct, a green border will surround their building of choice. If their answer is incorrect,
+        the correct building will be displayed, with a red border surrounding it. After submitting their answer, an
+        informative piece of trivia regarding CSUN will appear where the question previously was.\n\n
+        Correct answers will also be awarded with an increment to the game\'s score. This increment is determined by
+        two factors: the difficulty of the question (easy, medium or hard), as well as the milliseconds the player had
+        remaining prior to answering it.\n\n
+        When the player is ready to continue, they then press the \"Next Question\" button at the top of the screen.
+        This cycle then repeats itself for all of the game questions until the last one is answered, and at this point
+        it\'s <i>Game Over</i>.\n\n
+        At the end of the game, the player\'s score can be sent to a leaderboard, where they can see how they rank up
+        against other players. Given the variability of the score, this will incentivize the player to continue playing
+        in order to get the highest score, and in the process, increasing their knowledge of CSUN\'s history and
+        locations.\n\n
+        In order to avoid cheating however, games are reset whenever the application is paused or exited for any
+        reason.\n\n
+        So, think YOU got what it takes to\n
+        <i>Know Your Campus</i>?</string>
+    <string name="play_title">Play</string>
+    <string name="next_question_button">Next Question</string>
+    <string name="back_submit_button">Back + Submit Score</string>
+    <string name="submit_title">Submit</string>
+    <string name="submit_description">---</string>
+    <string name="submit_send_button">Send</string>
+    <string name="submit_leaderboard_button">Leaderboard</string>
+    <string name="credits_title">Credits</string>
+    <string name="credits_description">Know Your Campus is an\n
         Android game application created at\n
         California State University Northridge\n
-        as a Spring 2015 semester project by\n
-        \'Team 2\' for Professor M. Boctor\'s\n
-        Computer Science 680 class.\n
+        as a project for Professor M. Boctor\'s\n
+        Spring 2015 <i>Comp 680</i> class, as well as\n
+        the Spring 2015 <i>App Jam</i> competition.\n
+        For the former, we are <i>Team 2</i>, for the\n
+        latter, we are <i>Team 12</i>.\n\n
         Our team consists of:\n
         <b>Chris Bowles\n
         Victor Perez\n
@@ -33,20 +52,5 @@
         Our website can be accessed by clicking the button below, which will exit this application and open your web
         browser at our address.</string>
     <string name="credits_website_button">www.nullroute.cc</string>
-    <string name="back_button">&lt;- Back</string>
-    <string name="next_question_button">Next Question</string>
-    <string name="back_submit_button">Back + Submit Score</string>
     <string name="device_not_supported">Google Play Services APK not supported</string>
-    <string name="rules_title">Rules of CSUN Map Trivia Game\n</string>
-    <string name="rules_text">In this game you\'ll be presented with a set of descriptive questions about
-        CSUN\'s campus. \nThe goal is to answer all the questions as fast as possible.
-        \nAfter clicking the "Play" button, you\'ll be presented with a map of CSUN and a question below it.
-        Scroll the map until you find the building you think answers the question best.
-        <b>Long press</b> the building on the map. If your answer is correct, you\'ll see a green boarder surround
-        the building you chose. If your answer is wrong, the game will show you the correct answer.
-        \nAfter submitting your answer, an informative trivia about CSUN will appear where the question was
-        and when you\'re ready for the next question, click the Next Question button at the top the screen.
-        \nOne thing though. If by any reason, the game is sent to the background you\'ll loose your
-        points and will have to start a new game. Sorry, but we want to avoid cheating.
-        \n\nThink YOU got what it takes to master CSUN Map Trivia?</string>
 </resources>

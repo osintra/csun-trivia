@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,55 +34,56 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_activity);
+		setContentView(R.layout.splash_activity);
 
-        // initialize connectivity manager and get network information
-        connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        activeNetwork = connectivityManager.getActiveNetworkInfo();
+		//Delay so that the splash logo shows for 3 seconds
+		new Handler().postDelayed(new Runnable() {
+			public void run() {
+				//Now, we load the main activity
+				setContentView(R.layout.main_activity);
+				// initialize connectivity manager and get network information
+				connectivityManager = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+				activeNetwork = connectivityManager.getActiveNetworkInfo();
 
-		Button testerButton = (Button)findViewById(R.id.mainButton1);
-		testerButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), GameActivity.class));
-            }
-        });
+				Button rulesButton = (Button)findViewById(R.id.mainButton1);
+				rulesButton.setOnClickListener(new OnClickListener() {
 
-		Button scoreButton = (Button)findViewById(R.id.mainButton2);
-		scoreButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), ScoreActivity.class));
-            }
-        });
+					public void onClick(View view) {
+						startActivity(new Intent(getBaseContext(), RulesActivity.class));
+					}
+				});
 
-		Button creditsButton = (Button)findViewById(R.id.mainButton3);
-		creditsButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), CreditsActivity.class));
-            }
-        });
+				playButton = (Button)findViewById(R.id.mainButton2);
+				playButton.setOnClickListener(new OnClickListener() {
+					public void onClick(View view) {
+						startActivity(new Intent(getBaseContext(), PlayActivity.class));
+					}
+				});
 
-		playButton = (Button)findViewById(R.id.mainButton4);
-		playButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), MapsActivity.class));
-            }
-        });
+				Button submitButton = (Button)findViewById(R.id.mainButton3);
+				submitButton.setOnClickListener(new OnClickListener() {
+					public void onClick(View view) {
+						startActivity(new Intent(getBaseContext(), SubmitActivity.class));
+					}
+				});
 
-        Button rulesButton = (Button)findViewById(R.id.mainButton5);
-        rulesButton.setOnClickListener(new OnClickListener() {
+				Button creditsButton = (Button)findViewById(R.id.mainButton4);
+				creditsButton.setOnClickListener(new OnClickListener() {
+					public void onClick(View view) {
+						startActivity(new Intent(getBaseContext(), CreditsActivity.class));
+					}
+				});
 
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), RulesActivity.class));
-            }
-        });
+				SubmitActivity.setScoreToDisplay(0); //Initializes the initial previous score to 0
 
-        checkPlayServices();
+				checkPlayServices();
 
-        // check the network connection
-        if (activeNetwork != null && activeNetwork.isConnected()) {
-        } else {
-            playButton.setEnabled(false);
-        }
+				// check the network connection
+				if (activeNetwork == null || !activeNetwork.isConnected()) {
+					playButton.setEnabled(false);
+				}
+			}
+		}, 3000);
 	}
 
     //TODO: extract network connection check point to method

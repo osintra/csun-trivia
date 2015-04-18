@@ -12,12 +12,14 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
+                android:background="@drawable/background"
                 tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="22sp"
+        android:textColor="#000000"
         android:text="@string/main_title"
         android:id="@+id/mainTextView1"
         android:layout_alignParentTop="true"
@@ -27,38 +29,35 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="18sp"
+        android:textColor="#000000"
         android:text="@string/main_description"
         android:id="@+id/mainTextView2"
         android:gravity="center"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="50dp"
         android:layout_below="@+id/mainTextView1"
         android:layout_centerHorizontal="true" />
 
-    <!-- if you want the tester button, set visibility to visible-->
     <Button
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_game_tester_button"
+        android:text="@string/rules_title"
         android:id="@+id/mainButton1"
-        android:layout_centerVertical="true"
-        android:layout_above="@+id/mainButton5"
-        android:layout_alignLeft="@+id/mainButton3"
-        android:layout_alignStart="@+id/mainButton3" />
+        android:layout_above="@+id/mainButton2"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_score_button"
+        android:text="@string/play_title"
         android:id="@+id/mainButton2"
         android:layout_above="@+id/mainButton3"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_credits_button"
+        android:text="@string/submit_title"
         android:id="@+id/mainButton3"
         android:layout_above="@+id/mainButton4"
         android:layout_centerHorizontal="true"/>
@@ -66,24 +65,16 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_start_game_button"
+        android:text="@string/credits_title"
         android:id="@+id/mainButton4"
         android:layout_above="@+id/mainTextView3"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_rules_button"
-        android:id="@+id/mainButton5"
-        android:layout_above="@+id/mainButton2"
-        android:layout_alignRight="@+id/mainButton2"
-        android:layout_alignEnd="@+id/mainButton2" />
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="18sp"
+        android:textColor="#000000"
         android:text="@string/main_copyright"
         android:id="@+id/mainTextView3"
         android:layout_alignParentBottom="true"
