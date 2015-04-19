@@ -28,6 +28,9 @@
         So, think YOU got what it takes to\n
         <i>Know Your Campus</i>?</string>
     <string name="play_title">Play</string>
+    <string name="time_text">Time: 20</string>
+    <string name="score_text">Score: 0</string>
+    <string name="trivia_text">Where is my question?!</string>
     <string name="next_question_button">Next Question</string>
     <string name="back_submit_button">Back + Submit Score</string>
     <string name="submit_title">Submit</string>

@@ -23,30 +23,30 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
     <TextView
-        android:id="@+id/maps_activity_timerTextView"
-        android:layout_alignRight="@id/dummy"
+        android:id="@+id/maps_activity_timeTextView"
+        android:layout_alignEnd="@id/dummy"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="#96000000"
         android:textColor="#ffffff"
         android:gravity="center"
-        android:textSize="20dp"
-        android:text="Timer" />
+        android:textSize="20sp"
+        android:text="@string/time_text" />
 
     <TextView
         android:id="@+id/maps_activity_scoreTextView"
-        android:layout_alignLeft="@id/dummy"
+        android:layout_alignStart="@id/dummy"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="#96000000"
         android:gravity="center"
         android:textColor="#ffffff"
-        android:textSize="20dp"
-        android:text="Score"
+        android:textSize="20sp"
+        android:text="@string/score_text"
         />
 
 
@@ -59,8 +59,8 @@
         android:background="#96ff0000"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
-        android:textSize="20dp"
-        android:text="Where is my question?!" />
+        android:textSize="20sp"
+        android:text="@string/trivia_text" />
 
     <TextView
         android:id="@+id/maps_activity_difficultyTextView"
@@ -68,7 +68,6 @@
         android:layout_height="20dp"
         android:text=""
         android:layout_below="@+id/maps_activity_scoreTextView"
-        android:layout_alignRight="@+id/maps_activity_scoreTextView"
         android:layout_alignEnd="@+id/maps_activity_scoreTextView"
         />
 
@@ -79,7 +78,7 @@
         android:layout_height="wrap_content"
         android:text="@string/next_question_button"
         android:id="@+id/maps_activity_next_button"
-        android:layout_below="@+id/maps_activity_timerTextView"
+        android:layout_below="@+id/maps_activity_timeTextView"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
