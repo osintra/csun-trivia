@@ -66,9 +66,10 @@
         android:id="@+id/maps_activity_difficultyTextView"
         android:layout_width="75dp"
         android:layout_height="20dp"
+        android:gravity="center"
         android:text=""
-        android:layout_below="@+id/maps_activity_scoreTextView"
-        android:layout_alignEnd="@+id/maps_activity_scoreTextView"
+        android:layout_alignBottom="@+id/maps_activity_timeTextView"
+        android:layout_centerHorizontal="true" />
         />
 
     <!-- if you want the next question button, set visibility to visible  -->

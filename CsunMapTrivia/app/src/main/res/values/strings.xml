@@ -55,5 +55,9 @@
         Our website can be accessed by clicking the button below, which will exit this application and open your web
         browser at our address.</string>
     <string name="credits_website_button">www.nullroute.cc</string>
+    <string name="references_title">References</string>
+    <string name="references_text">
+        This is where the references will go.
+    </string>
     <string name="device_not_supported">Google Play Services APK not supported</string>
 </resources>
