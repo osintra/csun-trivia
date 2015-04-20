@@ -29,6 +29,7 @@
         <i>Know Your Campus</i>?</string>
     <string name="play_title">Play</string>
     <string name="time_text">Time: 20</string>
+    <string name="difficulty_text">---</string>
     <string name="score_text">Score: 0</string>
     <string name="trivia_text">Where is my question?!</string>
     <string name="next_question_button">Next Question</string>
@@ -52,12 +53,9 @@
         Russell Templet\n
         Nishika Malhotra\n
         Maria Regina Velasquez\n</b>\n
-        Our website can be accessed by clicking the button below, which will exit this application and open your web
-        browser at our address.</string>
+        Our website can be accessed by pressing the button on the left, which will exit this application and open your web
+        browser at our address. To see a complete list of sources for the trivia, press the button on the right.</string>
     <string name="credits_website_button">www.nullroute.cc</string>
     <string name="references_title">References</string>
-    <string name="references_text">
-        This is where the references will go.
-    </string>
     <string name="device_not_supported">Google Play Services APK not supported</string>
 </resources>

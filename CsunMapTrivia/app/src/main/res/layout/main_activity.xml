@@ -67,14 +67,6 @@
         android:layout_height="wrap_content"
         android:text="@string/credits_title"
         android:id="@+id/mainButton4"
-        android:layout_above="@+id/mainButton5"
-        android:layout_centerHorizontal="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/references_title"
-        android:id="@+id/mainButton5"
         android:layout_above="@+id/mainTextView3"
         android:layout_centerHorizontal="true"/>
 

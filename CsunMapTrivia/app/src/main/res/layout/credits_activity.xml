@@ -27,11 +27,11 @@
         android:gravity="center"/>
 
     <ScrollView
-        android:id="@+id/rules_activity_scrollView"
+        android:id="@+id/creditsScrollView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/creditsTextView1"
-        android:layout_above="@+id/creditsButton1"
+        android:layout_above="@+id/creditsLinearLayout1"
         android:scrollbars="vertical"
         android:fillViewport="true">
 
@@ -45,12 +45,42 @@
             android:gravity="center"/>
     </ScrollView>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/creditsLinearLayout1"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/credits_website_button"
-        android:id="@+id/creditsButton1"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/credits_website_button"
+                android:id="@+id/creditsButton1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/references_title"
+                android:id="@+id/creditsButton2"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

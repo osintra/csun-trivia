@@ -93,12 +93,12 @@ public class PlayActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.play_activity);
-		timeTextView = (TextView) findViewById(R.id.maps_activity_timeTextView);
-		questionTextView = (TextView) findViewById(R.id.maps_activity_questionTextView);
-		scoreTextView = (TextView) findViewById(R.id.maps_activity_scoreTextView);
+		timeTextView = (TextView) findViewById(R.id.playTextView1);
+		questionTextView = (TextView) findViewById(R.id.playTextView4);
+		scoreTextView = (TextView) findViewById(R.id.playTextView3);
 		scoreKeeper = ScoreKeeper.getScoreKeeperSingleton();
-		difficultyTextView = (TextView) findViewById(R.id.maps_activity_difficultyTextView);
-		nextQuestionButton = (Button) findViewById(R.id.maps_activity_next_button);
+		difficultyTextView = (TextView) findViewById(R.id.playTextView2);
+		nextQuestionButton = (Button) findViewById(R.id.playButton1);
 
 		nextQuestionButton.setOnClickListener(new View.OnClickListener()
 		{
@@ -188,7 +188,7 @@ public class PlayActivity extends FragmentActivity {
 				questionTextView.setBackgroundColor(RED_BG);
 				questionTextView.setText("Q: " + question.getText());
 				// update difficulty view
-				setUpDifficulty(question.getDifficulty());
+				setUpDifficulty(questionIndex, question.getDifficulty());
 			} catch (Exception setUpQuestionException) {
 				setUpQuestionException.printStackTrace();
 				Toast.makeText(getBaseContext(), "Exception setting up question", Toast.LENGTH_LONG).show();
@@ -202,7 +202,7 @@ public class PlayActivity extends FragmentActivity {
 		}
 	}
 
-	private void setUpDifficulty(int difficulty) {
+	private void setUpDifficulty(int questionIndex, int difficulty) {
 		int difficultyColor = BLACK_BG;
 		String difficultyText = "Difficulty";
 		switch(difficulty) {
@@ -223,7 +223,7 @@ public class PlayActivity extends FragmentActivity {
 				difficultyText = "Extreme";
 				break;
 		}
-		difficultyTextView.setText(difficultyText);
+		difficultyTextView.setText((questionIndex + 1) + "/" + questionHolder.getNumberOfQuestions() + "   " + difficultyText);
 		difficultyTextView.setTextColor(difficultyColor);
 	}
 
@@ -294,7 +294,7 @@ public class PlayActivity extends FragmentActivity {
 		// Do a null check to confirm that we have not already instantiated the map.
 		if (mMap == null) {
 			// Try to obtain the map from the SupportMapFragment.
-			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.playMapFragment)).getMap();
 			// Check if we were successful in obtaining the map.
 			if (mMap != null) {
 				setUpMap();

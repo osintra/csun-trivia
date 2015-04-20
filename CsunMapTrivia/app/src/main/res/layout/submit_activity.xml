@@ -21,7 +21,7 @@
         android:textSize="22sp"
         android:textColor="#000000"
         android:text="@string/submit_title"
-        android:id="@+id/score_activity_scoreTextView1"
+        android:id="@+id/submitTextView1"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
@@ -31,8 +31,8 @@
         android:textSize="18sp"
         android:textColor="#000000"
         android:text="@string/submit_description"
-        android:id="@+id/score_activity_scoreTextView"
-        android:layout_below="@+id/score_activity_scoreTextView1"
+        android:id="@+id/submitTextView2"
+        android:layout_below="@+id/submitTextView1"
         android:layout_centerHorizontal="true"/>
 
     <Button

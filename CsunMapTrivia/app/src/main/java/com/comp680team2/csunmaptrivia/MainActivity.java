@@ -74,13 +74,6 @@ public class MainActivity extends Activity
 					}
 				});
 
-                Button referencesButton = (Button)findViewById(R.id.mainButton5);
-                referencesButton.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        startActivity(new Intent(getBaseContext(), ReferencesActivity.class));
-                    }
-                });
-
 				SubmitActivity.setScoreToDisplay(0); //Initializes the initial previous score to 0
 
 				checkPlayServices();

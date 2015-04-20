@@ -21,8 +21,8 @@ public class SubmitActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.submit_activity);
 
-		TextView myTextView = (TextView) findViewById(R.id.score_activity_scoreTextView);
-        myTextView.setText(scoreToDisplay);
+		TextView textView = (TextView) findViewById(R.id.submitTextView2);
+        textView.setText(scoreToDisplay);
 
 		Button button1 = (Button)findViewById(R.id.submitButton1);
 		button1.setOnClickListener(new View.OnClickListener() {

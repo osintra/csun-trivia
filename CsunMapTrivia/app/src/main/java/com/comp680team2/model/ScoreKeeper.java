@@ -42,14 +42,6 @@ public final class ScoreKeeper {
 
 
     /**
-     * Add 1 (one) point to the current score
-     */
-    public void addPoint() {
-        this.currentScore = currentScore + 1;
-    }
-
-
-    /**
      * Reset current score to 0 (zero)
      */
     public void resetCurrentScore() {

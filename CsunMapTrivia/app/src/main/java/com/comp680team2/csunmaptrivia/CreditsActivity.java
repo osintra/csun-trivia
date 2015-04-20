@@ -28,5 +28,12 @@ public class CreditsActivity extends Activity
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.nullroute.cc/")));
 			}
 		});
+
+		Button button2 = (Button)findViewById(R.id.creditsButton2);
+		button2.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(getBaseContext(), ReferencesActivity.class));
+			}
+		});
 	}
 }

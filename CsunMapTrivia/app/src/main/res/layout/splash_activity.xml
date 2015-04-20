@@ -1,3 +1,9 @@
+<!--
+    Chris Bowles, Victor Perez, Russell Templet, Nishika Malhotra, Maria Velasquez
+    Comp 680, Team 2, Spring 2015, Prof. Boctor
+    splash_activity.xml
+-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -12,7 +18,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/splashImageView"
+        android:id="@+id/splashImageView1"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:contentDescription="@string/app_name"

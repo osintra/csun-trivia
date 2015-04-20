@@ -5,7 +5,6 @@ import com.comp680team2.model.Question;
 import com.comp680team2.model.QuestionHolder;
 import com.comp680team2.model.Region;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
