@@ -1,3 +1,8 @@
+/* Chris Bowles, Victor Perez, Russell Templet, Nishika Malhotra, Maria Velasquez
+ * Comp 680, Team 2, Spring 2015, Prof. Boctor
+ * Coordinate.java
+ */
+
 package com.comp680team2.model;
 
 public class Coordinate {

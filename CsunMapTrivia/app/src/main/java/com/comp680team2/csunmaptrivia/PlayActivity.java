@@ -5,6 +5,7 @@
 
 package com.comp680team2.csunmaptrivia;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
@@ -61,7 +62,6 @@ public class PlayActivity extends FragmentActivity {
 	private final int MAX_SECONDS = 20;
 
 
-	//TODO: submit the achieved score when the game ends successfully
 	private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 	private double pressedLatitude = 0;
 	private double pressedLongitude = 0;
@@ -78,7 +78,7 @@ public class PlayActivity extends FragmentActivity {
 	private boolean questionAnsweredAlready = false;
 	private Button nextQuestionButton = null;
 	private QuestionHolder questionHolder = null;
-	private int questionNumber = 0;
+	private int questionIndex = 0;
 	private double remainingTime = 0;
 	private long systemTimeAtStartOfQuestion = 0;
 	String timeDisplay = "";
@@ -108,7 +108,8 @@ public class PlayActivity extends FragmentActivity {
 				questionAnsweredAlready = false;
 				// hide next question button
 				nextQuestionButton.setVisibility(View.GONE);
-				setUpQuestion(++questionNumber);
+				questionIndex++;
+				setUpQuestion();
 				//enabling all gestures on the Map back to true
 				mMap.clear();
 				mMap.getUiSettings().setAllGesturesEnabled(true);
@@ -120,17 +121,16 @@ public class PlayActivity extends FragmentActivity {
 	}
 
 
-
 	// If the game activity is stopped, the game ends
 	// the score is reset without being submitted
 	@Override
 	public void onStop() {
 		super.onStop();
 		if (!gameEndedSuccessfully) {
-			Toast.makeText(this, "Quitting Game Before Finishing", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Warning: The game was quit before it finished.", Toast.LENGTH_LONG).show();
+			scoreKeeper.resetCurrentScore();
+			finish();
 		}
-		scoreKeeper.resetCurrentScore();
-		finish();
 	}
 
 
@@ -144,13 +144,12 @@ public class PlayActivity extends FragmentActivity {
 	private void initializeGame() {
 		Thread initThread = new Thread(new Runnable() {
 			public void run() {
-				//TODO: show some sort of loading mask
 				// fetch question set
 				questionHolder = new GameController().fetchQuestionSet();
 				runOnUiThread(new Runnable() {
 					public void run() {
 						updateScoreView();
-						setUpQuestion(questionNumber);
+						setUpQuestion();
 						setUpTimer();
 					}
 				});
@@ -159,7 +158,7 @@ public class PlayActivity extends FragmentActivity {
 		initThread.start();
 	}
 
-	private void setUpQuestion(int questionIndex) {
+	private void setUpQuestion() {
 		Question question;
 		remainingTime = MAX_SECONDS;
 		systemTimeAtStartOfQuestion = System.currentTimeMillis();
@@ -188,7 +187,7 @@ public class PlayActivity extends FragmentActivity {
 				questionTextView.setBackgroundColor(RED_BG);
 				questionTextView.setText("Q: " + question.getText());
 				// update difficulty view
-				setUpDifficulty(questionIndex, question.getDifficulty());
+				setUpDifficulty(question.getDifficulty());
 			} catch (Exception setUpQuestionException) {
 				setUpQuestionException.printStackTrace();
 				Toast.makeText(getBaseContext(), "Exception setting up question", Toast.LENGTH_LONG).show();
@@ -196,13 +195,13 @@ public class PlayActivity extends FragmentActivity {
 			}
 		} else {
 			gameEndedSuccessfully = true;
-			Toast.makeText(getBaseContext(), "Game Finished! Remember to SUBMIT your score!", Toast.LENGTH_LONG).show();
-			scoreKeeper.submitCurrentScore();
+			//By calling an activity and then finish after it, the child activity will backtrack to its grandparent activity
+			startActivity(new Intent(getBaseContext(), SubmitActivity.class));
 			finish();
 		}
 	}
 
-	private void setUpDifficulty(int questionIndex, int difficulty) {
+	private void setUpDifficulty(int difficulty) {
 		int difficultyColor = BLACK_BG;
 		String difficultyText = "Difficulty";
 		switch(difficulty) {
@@ -391,6 +390,11 @@ public class PlayActivity extends FragmentActivity {
 		questionTextView.setBackgroundColor(BLACK_BG);
 		nextQuestionButton.setVisibility(View.VISIBLE);
 		nextQuestionButton.bringToFront();
+		if (questionIndex < questionHolder.getNumberOfQuestions() - 1) {
+			nextQuestionButton.setText("Next Question");
+		} else {
+			nextQuestionButton.setText("Submit Score");
+		}
 	}
 
 
@@ -443,7 +447,7 @@ public class PlayActivity extends FragmentActivity {
 
 	// calculates score based on difficulty as a coefficient and remaining time
 	private int calculateScore() {
-		int difficulty = questionHolder.getQuestion(questionNumber).getDifficulty();
+		int difficulty = questionHolder.getQuestion(questionIndex).getDifficulty();
 		return (int)(remainingTime * 1000) * (difficulty + 1); // scoring formula
 	}
 

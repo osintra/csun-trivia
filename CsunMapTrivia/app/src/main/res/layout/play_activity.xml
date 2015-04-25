@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:text="@string/next_question_button"
         android:id="@+id/playButton1"
-        android:layout_below="@+id/playLinearLayout1"
+        android:layout_above="@+id/playTextView4"
         android:layout_centerHorizontal="true"
         android:visibility="gone"/>
 

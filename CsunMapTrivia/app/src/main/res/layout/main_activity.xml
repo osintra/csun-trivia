@@ -57,7 +57,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit_title"
+        android:text="@string/leaderboard_title"
         android:id="@+id/mainButton3"
         android:layout_above="@+id/mainButton4"
         android:layout_centerHorizontal="true"/>

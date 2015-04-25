@@ -63,7 +63,7 @@ public class MainActivity extends Activity
 				Button submitButton = (Button)findViewById(R.id.mainButton3);
 				submitButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View view) {
-						startActivity(new Intent(getBaseContext(), SubmitActivity.class));
+						startActivity(new Intent(getBaseContext(), LeaderboardActivity.class));
 					}
 				});
 
@@ -73,8 +73,6 @@ public class MainActivity extends Activity
 						startActivity(new Intent(getBaseContext(), CreditsActivity.class));
 					}
 				});
-
-				SubmitActivity.setScoreToDisplay(0); //Initializes the initial previous score to 0
 
 				checkPlayServices();
 

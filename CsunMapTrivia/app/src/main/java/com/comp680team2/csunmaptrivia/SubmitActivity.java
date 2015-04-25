@@ -9,53 +9,60 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.comp680team2.model.HighScore;
+import com.comp680team2.model.Leaderboard;
+import com.comp680team2.model.ScoreKeeper;
+
 public class SubmitActivity extends Activity
 {
-    private static String scoreToDisplay;
+	private Leaderboard leaderboard;
+	private ScoreKeeper scoreKeeper;
+	private EditText editText;
+	private boolean submitted;
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.submit_activity);
 
-		TextView textView = (TextView) findViewById(R.id.submitTextView2);
-        textView.setText(scoreToDisplay);
+		leaderboard = Leaderboard.getLeaderboardSingleton();
+		scoreKeeper = ScoreKeeper.getScoreKeeperSingleton();
+
+		editText = (EditText)findViewById(R.id.submitEditText1);
+
+		TextView textView = (TextView)findViewById(R.id.submitTextView3);
+		textView.setText("Score: " + scoreKeeper.getCurrentScore());
 
 		Button button1 = (Button)findViewById(R.id.submitButton1);
 		button1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				Toast.makeText(getBaseContext(), "Your score was successfully submitted!", Toast.LENGTH_LONG).show();
-				//Score functionality goes here
+				if (!editText.getText().toString().equals("")) {
+					leaderboard.addHighScore(new HighScore(editText.getText().toString(), scoreKeeper.getCurrentScore()));
+					Toast.makeText(getBaseContext(), "Your score was successfully submitted! Check the leaderboard to see where it ranks.", Toast.LENGTH_LONG).show();
+					submitted = true;
+					scoreKeeper.resetCurrentScore();
+					finish();
+				} else {
+					Toast.makeText(getBaseContext(), "Please enter your name before pressing SEND.", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 
-		if (scoreToDisplay.charAt(0) == 'Y') {
-			button1.setVisibility(View.VISIBLE);
-		} else {
-			button1.setVisibility(View.INVISIBLE);
-		}
-
-		Button button2 = (Button)findViewById(R.id.submitButton2);
-		button2.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				Toast.makeText(getBaseContext(), "(Leaderboard functionality goes here.)", Toast.LENGTH_LONG).show();
-			}
-		});
+		submitted = false;
 	}
 
-    public static void setScoreToDisplay(int score) {
-		if (score > 0) {
-			scoreToDisplay = "Your last game's score was " + score + ".\n\n" +
-					"To submit this score, press the SEND button. " +
-					"To see the global high scores, press the LEADERBOARD button.";
-
-		} else {
-			scoreToDisplay = "To submit a score, first play a game of Know Your Campus. " +
-					"When finished, come back here and press the SEND button. " +
-					"To see the global high scores, press the LEADERBOARD button.";
+	// If the submit activity is stopped, the score is reset without being submitted
+	@Override
+	public void onStop() {
+		super.onStop();
+		if (!submitted) {
+			Toast.makeText(this, "Warning: Your score was not submitted to the leaderboard.", Toast.LENGTH_LONG).show();
+			scoreKeeper.resetCurrentScore();
+			finish();
 		}
-    }
+	}
 }

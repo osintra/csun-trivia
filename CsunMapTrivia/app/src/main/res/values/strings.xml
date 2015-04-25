@@ -2,7 +2,7 @@
     <string name="app_name">Know Your Campus</string>
     <string name="main_title">Welcome to <b>Know Your Campus</b>:\nCSUN\'s official map trivia game!</string>
     <string name="main_description">Press <i>Rules</i> if this is your first time.\nPress <i>Play</i> to start the
-        game.\nPress <i>Submit</i> to send scores to the leaderboard.</string>
+        game.\nPress <i>Leaderboard</i> to see high scores.</string>
     <string name="main_copyright">&#169; 2015 Comp 680 Team 2\n&#169; 2015 App Jam Team 12</string>
     <string name="rules_title">Rules</string>
     <string name="rules_text">In this game, players are presented with a randomized set of descriptive questions about
@@ -35,9 +35,12 @@
     <string name="next_question_button">Next Question</string>
     <string name="back_submit_button">Back + Submit Score</string>
     <string name="submit_title">Submit</string>
-    <string name="submit_description">---</string>
+    <string name="submit_description">Thank you for playing\n
+        <b>Know Your Campus</b>.\n
+        Please type your name and press the <i>Send</i> button in order to submit your score to the leaderboard.</string>
+    <string name="submit_score">Score: 0</string>
     <string name="submit_send_button">Send</string>
-    <string name="submit_leaderboard_button">Leaderboard</string>
+    <string name="leaderboard_title">Leaderboard</string>
     <string name="credits_title">Credits</string>
     <string name="credits_description">Know Your Campus is an\n
         Android game application created at\n

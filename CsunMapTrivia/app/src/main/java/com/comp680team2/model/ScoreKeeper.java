@@ -1,6 +1,9 @@
-package com.comp680team2.model;
+/* Chris Bowles, Victor Perez, Russell Templet, Nishika Malhotra, Maria Velasquez
+ * Comp 680, Team 2, Spring 2015, Prof. Boctor
+ * ScoreKeeper.java
+ */
 
-import com.comp680team2.csunmaptrivia.SubmitActivity;
+package com.comp680team2.model;
 
 /**
  * This singleton class keeps the game's current score. The current score is supposed to be updated
@@ -8,19 +11,21 @@ import com.comp680team2.csunmaptrivia.SubmitActivity;
  * This is not thread safe
  */
 public final class ScoreKeeper {
-    private int currentScore;
+	//Static instances
     private static ScoreKeeper singleInstance = new ScoreKeeper();
+
+	/**
+	 * @return  the singleton instance of ScoreKeeper
+	 */
+	public static ScoreKeeper getScoreKeeperSingleton() {
+		return singleInstance;
+	}
+
+	//Dynamic instances
+	private int currentScore;
 
     private ScoreKeeper() {
         currentScore = 0;
-    }
-
-
-    /**
-     * @return  the singleton instance of ScoreKeeper
-     */
-    public static ScoreKeeper getScoreKeeperSingleton() {
-        return singleInstance;
     }
 
 
@@ -47,13 +52,4 @@ public final class ScoreKeeper {
     public void resetCurrentScore() {
         currentScore = 0;
     }
-
-
-    /**
-     * Submit current score
-     */
-    public void submitCurrentScore() {
-        SubmitActivity.setScoreToDisplay(currentScore);
-    }
-    //TODO: implement Google Play leaderboard current score submission for second sprint
 }

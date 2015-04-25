@@ -51,6 +51,11 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".LeaderboardActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".CreditsActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
