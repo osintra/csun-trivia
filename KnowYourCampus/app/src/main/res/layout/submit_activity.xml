@@ -21,7 +21,7 @@
         android:textSize="22sp"
         android:textColor="#000000"
         android:text="@string/submit_title"
-        android:id="@+id/submitTextView1"
+        android:id="@+id/submitTextViewTitle"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
@@ -31,8 +31,8 @@
         android:textSize="18sp"
         android:textColor="#000000"
         android:text="@string/submit_description"
-        android:id="@+id/submitTextView2"
-        android:layout_below="@+id/submitTextView1"
+        android:id="@+id/submitTextViewComment"
+        android:layout_below="@+id/submitTextViewTitle"
         android:layout_centerHorizontal="true"
         android:gravity="center"/>
 
@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/submitEditText1"
-        android:labelFor="@+id/submitEditText1"
+        android:id="@+id/submitNameTextView"
+        android:labelFor="@+id/submitNameTextView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"/>
@@ -53,15 +53,15 @@
         android:textSize="18sp"
         android:textColor="#000000"
         android:text="@string/submit_score"
-        android:id="@+id/submitTextView3"
-        android:layout_below="@+id/submitEditText1"
+        android:id="@+id/scoreTextView"
+        android:layout_below="@+id/submitNameTextView"
         android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit_send_button"
-        android:id="@+id/submitButton1"
+        android:id="@+id/submitButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
 
