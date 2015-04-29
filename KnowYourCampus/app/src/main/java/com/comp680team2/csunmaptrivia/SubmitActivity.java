@@ -3,7 +3,7 @@
  * SubmitActivity.java
  */
 
-package com.comp680team2.knowyourcampus;
+package com.comp680team2.csunmaptrivia;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -32,12 +32,12 @@ public class SubmitActivity extends Activity
 		leaderboard = Leaderboard.getLeaderboardSingleton();
 		scoreKeeper = ScoreKeeper.getScoreKeeperSingleton();
 
-		editText = (EditText)findViewById(R.id.submitEditText1);
+		editText = (EditText)findViewById(R.id.submitEditText);
 
-		TextView textView = (TextView)findViewById(R.id.submitTextView3);
+		TextView textView = (TextView)findViewById(R.id.submitTextViewScore);
 		textView.setText("Score: " + scoreKeeper.getCurrentScore());
 
-		Button button1 = (Button)findViewById(R.id.submitButton1);
+		Button button1 = (Button)findViewById(R.id.submitButton);
 		button1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if (!editText.getText().toString().equals("")) {

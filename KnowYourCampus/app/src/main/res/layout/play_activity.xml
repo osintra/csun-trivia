@@ -16,7 +16,7 @@
               android:layout_height="wrap_content"
               android:id="@+id/playMapFragment"
               android:name="com.google.android.gms.maps.SupportMapFragment"
-              tools:context=".MapsActivity"/>
+              tools:context=".PlayActivity"/>
 
     <LinearLayout
         android:id="@+id/playLinearLayout1"
