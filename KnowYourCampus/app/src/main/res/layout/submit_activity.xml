@@ -57,12 +57,57 @@
         android:layout_below="@+id/submitNameTextView"
         android:layout_centerHorizontal="true"/>
 
-    <Button
+    <!-- Sign in bar -->
+    <LinearLayout android:id="@+id/sign_in_bar" style="@style/SignInOutBar"
+        android:layout_above="@+id/buttonsBar">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_sign_in" style="@style/SignInButton" />
+
+        <TextView style="@style/SignInOutBarBlurb" android:text="@string/sign_in_explanation" />
+    </LinearLayout>
+
+    <!-- Sign out bar -->
+    <LinearLayout android:id="@+id/sign_out_bar" style="@style/SignInOutBar"
+        android:visibility="gone"
+        android:layout_above="@+id/buttonsBar">
+
+        <TextView style="@style/SignInOutBarBlurb"
+            android:text="@string/you_are_signed_in" />
+
+        <Button style="@style/SignOutButton" android:id="@+id/button_sign_out"
+            android:text="@string/sign_out" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonsBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit_send_button"
-        android:id="@+id/submitButton"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_send_button"
+            android:id="@+id/submitButton"
+            android:visibility="visible"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit_send_google_button"
+            android:text="@string/sendToGoogleButtonText"
+            android:visibility="gone"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/leaderboardButton"
+            android:text="@string/leaderboardButton_text"
+            android:enabled="false"/>
+    </LinearLayout>
+
 
 </RelativeLayout>
