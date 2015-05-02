@@ -3,7 +3,7 @@
  * SubmitActivity.java
  */
 
-package com.comp680team2.knowyourcampus;
+package com.comp680team2.csunmaptrivia;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -69,6 +69,8 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
         seeGoogleLeaderboard = (Button)findViewById(R.id.leaderboardButton);
         seeGoogleLeaderboard.setEnabled(false);
 
+		TextView textView = (TextView)findViewById(R.id.submitTextView3);
+		textView.setText("Score: " + scoreKeeper.getCurrentScore());
 
         // Add the click listener to buttons
         signInButton.setOnClickListener(this);

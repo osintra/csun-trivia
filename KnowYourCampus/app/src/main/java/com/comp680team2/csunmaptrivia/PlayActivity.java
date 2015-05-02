@@ -3,7 +3,7 @@
  * PlayActivity.java
  */
 
-package com.comp680team2.knowyourcampus;
+package com.comp680team2.csunmaptrivia;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;

@@ -1,4 +1,4 @@
-package com.comp680team2.knowyourcampus;
+package com.comp680team2.csunmaptrivia;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

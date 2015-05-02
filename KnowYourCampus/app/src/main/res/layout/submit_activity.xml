@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/submitNameTextView"
-        android:labelFor="@+id/submitNameTextView"
+        android:id="@+id/submitEditText"
+        android:labelFor="@+id/submitEditText"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"/>
@@ -53,8 +53,8 @@
         android:textSize="18sp"
         android:textColor="#000000"
         android:text="@string/submit_score"
-        android:id="@+id/scoreTextView"
-        android:layout_below="@+id/submitNameTextView"
+        android:id="@+id/submitTextViewScore"
+        android:layout_below="@+id/submitEditText"
         android:layout_centerHorizontal="true"/>
 
     <!-- Sign in bar -->
