@@ -27,22 +27,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesActivityResultCodes;
 
-
 import static android.util.Log.d;
 
 public class SubmitActivity extends Activity implements GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, View.OnClickListener {
+    final int REQ_CODE_RECOVER_PLAY_SERVICES = 1001;
+    final int REQ_CODE_SIGN_IN = 9001;
+    private final int REQ_CODE_LEADERBOARD = 1003;
     private Leaderboard leaderboard;
-	private ScoreKeeper scoreKeeper;
+    private ScoreKeeper scoreKeeper;
 	private EditText editText;
     private SignInButton signInButton;
     private Button signOutButton;
     private Button sendButton;
     private Button seeGoogleLeaderboard;
 	private boolean submitted;
-    final int REQ_CODE_RECOVER_PLAY_SERVICES = 1001;
-    final int REQ_CODE_SIGN_IN = 9001;
-    private final int REQ_CODE_LEADERBOARD = 1003;
     private boolean mResolvingConnectionFailure;
     private boolean mSignInClicked;
     private GoogleApiClient mGoogleApiClient;
@@ -68,9 +67,6 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
         sendButton = (Button)findViewById(R.id.submitButton);
         seeGoogleLeaderboard = (Button)findViewById(R.id.leaderboardButton);
         seeGoogleLeaderboard.setEnabled(false);
-
-		TextView textView = (TextView)findViewById(R.id.submitTextView3);
-		textView.setText("Score: " + scoreKeeper.getCurrentScore());
 
         // Add the click listener to buttons
         signInButton.setOnClickListener(this);
@@ -132,64 +128,39 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
                 return;
 
             case REQ_CODE_SIGN_IN:
-                mSignInClicked = false;
                 mResolvingConnectionFailure = false;
                 if(resultCode == RESULT_OK) {
-                    if(mGoogleApiClient != null) {
+                    if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
                         d("onActivityResult()", "Sign in req good to go -> " +
                                 "attempt connection");
                         mGoogleApiClient.connect();
                     }
                 } else {
+                    mSignInClicked = false;
                     showActivityResultErrorForSignIn(this, requestCode, resultCode,
                             R.string.signin_failure);
-                    finish();
+                }
+                return;
+
+            case REQ_CODE_LEADERBOARD:
+                if (resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
+                    d("onActivityResult()", "leaderboar REQ returned inconsistent state");
+                    seeGoogleLeaderboard.setEnabled(false);
+                    mGoogleApiClient.disconnect();
+                    showSignInBar();
                 }
                 return;
         }
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
-
-    /**
-     * Check that the Google Play Services are supported by the device
-     *
-     * @return  true if the Google Play Services are supported
-     */
-    private boolean checkForGooglePlayServices() {
-        int servicesStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-        if(servicesStatus != ConnectionResult.SUCCESS) {
-            if(GooglePlayServicesUtil.isUserRecoverableError(servicesStatus)) {
-                showErrorDialog(servicesStatus, REQ_CODE_RECOVER_PLAY_SERVICES);
-            } else {
-                showToastWithMessage("Google Play Services not supported by device");
-                finish();
-            }
-            // Services not available
-            return false;
-        }
-        // Services are available
-        return true;
-    }
-
     /**
      * Wrapper method
      *
-     * @param messageToToast
+     * @param messageToToast    a message to toast
      */
     private void showToastWithMessage(String messageToToast) {
         Toast.makeText(this, messageToToast, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Wrapper method
-     *
-     * @param errCode   error code returned by isGoogleServicesAvailable(Context)
-     * @param reqCode   a request code to call the startActivityForResult
-     */
-    private void showErrorDialog(int errCode, int reqCode) {
-        GooglePlayServicesUtil.getErrorDialog(errCode, this, reqCode).show();
     }
 
     @Override
@@ -198,6 +169,7 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
         // Show the sign out bar
         showSignOutBar();
         seeGoogleLeaderboard.setEnabled(true);
+        mSignInClicked = false;
 
     }
 
@@ -209,26 +181,30 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        if(mResolvingConnectionFailure) {
-            // Already resolving the failure
-            d("onConnectionFailed()", "connection failure already resolving");
-            return;
-        }
-
-        if(mSignInClicked) {
-            mSignInClicked = false;
-            mResolvingConnectionFailure = true;
-            // Attempt to resolve
-            d("onConnectionFailed()", "attempt to solve connection failure");
-            if(resolveConnectionFailure(this, mGoogleApiClient, connectionResult,
-                    REQ_CODE_SIGN_IN, getString(R.string.signin_other_error))) {
-                mResolvingConnectionFailure = false;
+        if (!mResolvingConnectionFailure) {
+            if (mSignInClicked) {
+                if (connectionResult.hasResolution()) {
+                    try {
+                        connectionResult.startResolutionForResult(this, REQ_CODE_SIGN_IN);
+                        mResolvingConnectionFailure = true;
+                    } catch (IntentSender.SendIntentException e) {
+                        // The intent was canceled before it was sent. Return to the default state
+                        // and attempt to connect again to get and updated ConnectionResult
+                        mResolvingConnectionFailure = false;
+                        mGoogleApiClient.connect();
+                    }
+                } else {
+                    Dialog connectionUtterFailureDialog = GooglePlayServicesUtil
+                            .getErrorDialog(connectionResult.getErrorCode(), this, REQ_CODE_SIGN_IN);
+                    if (connectionUtterFailureDialog != null) {
+                        connectionUtterFailureDialog.show();
+                    } else {
+                        // No built-in dialog: show the fallback error message
+                        showAlert(this, getString(R.string.signin_other_error));
+                    }
+                }
             }
         }
-
-        d("onConnectionFailed()", "connection could not be resolved -> show sign in bar");
-        // Show the sign in bar
-        showSignInBar();
     }
 
     @Override
@@ -252,6 +228,7 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
                         mGoogleApiClient.disconnect();
                     }
                 }
+                seeGoogleLeaderboard.setEnabled(false);
                 showSignInBar();
                 break;
 
@@ -289,6 +266,31 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
         findViewById(R.id.sign_in_bar).setVisibility(View.GONE);
         findViewById(R.id.sign_out_bar).setVisibility(View.VISIBLE);
     }
+//-----From the example Implementing GCM Client on Android published by Google -------------------//
+// http://developer.android.com/google/gcm/client.html
+
+    /**
+     * Check that the Google Play Services are supported by the device
+     *
+     * @return true if the Google Play Services are supported
+     */
+    private boolean checkForGooglePlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        REQ_CODE_RECOVER_PLAY_SERVICES);
+            } else {
+                showToastWithMessage("Google Play Services not supported by device");
+                finish();
+            }
+            // Services not available
+            return false;
+        }
+        // Services are available
+        return true;
+    }
 
 //-----From the example BaseGameUtil.java published by Google ------------------------------------//
     /**
@@ -300,45 +302,6 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
     private void showAlert(Activity activity, String message) {
         (new AlertDialog.Builder(activity)).setMessage(message)
                 .setNeutralButton(android.R.string.ok, null).create().show();
-    }
-
-    /**
-     * Resolve a connection failure from
-     * {@link com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener#onConnectionFailed(com.google.android.gms.common.ConnectionResult)}
-     *
-     * @param activity  the Activity trying to resolve the connection failure
-     * @param client    the GoogleAPIClient instance of the Activity
-     * @param result    the ConnectionResult received by the Activity
-     * @param requestCode   a request code which the calling Activity can use to identify the result of this resolution in onActivityResult
-     * @param fallbackErrorMessage  a generic error message to display if the failure cannot be resolved
-     * @return  boolean true if the connection failure is resolved, false otherwise
-     */
-    private boolean resolveConnectionFailure(Activity activity, GoogleApiClient client, ConnectionResult result,
-                                             int requestCode, String fallbackErrorMessage) {
-
-        if (result.hasResolution()) {
-            try {
-                result.startResolutionForResult(activity, requestCode);
-                return true;
-            } catch (IntentSender.SendIntentException e) {
-                // The intent was canceled before it was sent.  Return to the default
-                // state and attempt to connect to get an updated ConnectionResult.
-                client.connect();
-                return false;
-            }
-        } else {
-            // Not resolvable, so show an error message
-            int errorCode = result.getErrorCode();
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(errorCode,
-                    activity, requestCode);
-            if (dialog != null) {
-                dialog.show();
-            } else {
-                // No built-in dialog: show the fallback error message
-                showAlert(activity, fallbackErrorMessage);
-            }
-            return false;
-        }
     }
 
     /**
@@ -378,12 +341,7 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
                     errorDialog = makeSimpleDialog(activity, activity.getString(fallBackErrorDescription));
                 }
         }
-
-        if(errorDialog != null) {
-            errorDialog.show();
-        } else {
-            d("shwActResForSignIn()", "null D");
-        }
+        errorDialog.show();
     }
 
     /**

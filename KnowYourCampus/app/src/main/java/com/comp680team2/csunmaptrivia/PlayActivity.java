@@ -4,17 +4,19 @@
  */
 
 package com.comp680team2.csunmaptrivia;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.comp680team2.controller.GameController;
 import com.comp680team2.model.Question;
 import com.comp680team2.model.QuestionHolder;
@@ -27,6 +29,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -40,6 +43,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class PlayActivity extends FragmentActivity {
@@ -60,8 +64,7 @@ public class PlayActivity extends FragmentActivity {
 	private static final int EXTREME_COLOR = Color.argb(200,255,50,50);
 
 	private final int MAX_SECONDS = 20;
-
-
+	String timeDisplay = "";
 	private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 	private double pressedLatitude = 0;
 	private double pressedLongitude = 0;
@@ -81,7 +84,6 @@ public class PlayActivity extends FragmentActivity {
 	private int questionIndex = 0;
 	private double remainingTime = 0;
 	private long systemTimeAtStartOfQuestion = 0;
-	String timeDisplay = "";
 	private boolean gameEndedSuccessfully = false;
 	private Thread timerThread = null;
 
@@ -164,7 +166,8 @@ public class PlayActivity extends FragmentActivity {
 		systemTimeAtStartOfQuestion = System.currentTimeMillis();
 
 		// check that the index is not out of bounds
-		if (questionIndex < questionHolder.getNumberOfQuestions()) {
+		//if (questionIndex < questionHolder.getNumberOfQuestions()) {
+		if (questionIndex < 3) {
 			try {
 				// get current question from holder at index
 				question = questionHolder.getQuestion(questionIndex);

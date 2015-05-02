@@ -23,13 +23,12 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends Activity
 {
-    private final String TAG = "mapTrivia";
     // Request code to invoke the Google Play Services status
     private static int REQUEST_CODE_PLAY_SERVICES = 1001;
-    private ConnectivityManager connectivityManager = null;
-    private NetworkInfo activeNetwork = null;
-
-    Button playButton = null;
+	private final String TAG = "mapTrivia";
+	Button playButton = null;
+	private ConnectivityManager connectivityManager = null;
+	private NetworkInfo activeNetwork = null;
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
