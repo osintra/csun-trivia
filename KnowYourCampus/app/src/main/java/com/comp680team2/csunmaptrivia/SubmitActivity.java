@@ -39,9 +39,11 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
 	private EditText editText;
     private SignInButton signInButton;
     private Button signOutButton;
+    private Button submitButton;
     private Button sendButton;
-    private Button seeGoogleLeaderboard;
-	private boolean submitted;
+    private Button googleLeaderboardButton;
+    private boolean scoreSubmitted;
+    private boolean scoreSent;
     private boolean mResolvingConnectionFailure;
     private boolean mSignInClicked;
     private GoogleApiClient mGoogleApiClient;
@@ -53,7 +55,8 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
 
         // Initialize booleans
         mResolvingConnectionFailure = false;
-        submitted = false;
+        scoreSubmitted = false;
+        scoreSent = false;
         mSignInClicked = false;
 
         // Instantiate singleton objects
@@ -64,15 +67,18 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
 		editText = (EditText)findViewById(R.id.submitNameTextView);
         signInButton = (SignInButton) findViewById(R.id.button_sign_in);
         signOutButton = (Button) findViewById(R.id.button_sign_out);
-        sendButton = (Button)findViewById(R.id.submitButton);
-        seeGoogleLeaderboard = (Button)findViewById(R.id.leaderboardButton);
-        seeGoogleLeaderboard.setEnabled(false);
+        submitButton = (Button) findViewById(R.id.submitButton);
+        sendButton = (Button) findViewById(R.id.submit_send_google_button);
+        googleLeaderboardButton = (Button) findViewById(R.id.leaderboardButton);
+        googleLeaderboardButton.setEnabled(false);
+
 
         // Add the click listener to buttons
         signInButton.setOnClickListener(this);
         signOutButton.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
-        seeGoogleLeaderboard.setOnClickListener(this);
+        googleLeaderboardButton.setOnClickListener(this);
 
         // Update score to display
 		TextView textView = (TextView)findViewById(R.id.scoreTextView);
@@ -107,11 +113,12 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
             mGoogleApiClient.disconnect();
         }
 
-        if (!submitted) {
+        if (!scoreSubmitted) {
             showToastWithMessage("Warning: Your score was not submitted to the leaderboard.");
-            scoreKeeper.resetCurrentScore();
-            //finish();
         }
+
+        scoreKeeper.resetCurrentScore();
+        //finish();
     }
 
     @Override
@@ -145,7 +152,7 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
             case REQ_CODE_LEADERBOARD:
                 if (resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
                     d("onActivityResult()", "leaderboar REQ returned inconsistent state");
-                    seeGoogleLeaderboard.setEnabled(false);
+                    googleLeaderboardButton.setEnabled(false);
                     mGoogleApiClient.disconnect();
                     showSignInBar();
                 }
@@ -168,14 +175,18 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
         d("onConnected()", "connection was successful -> toggling bars, enabling buttons");
         // Show the sign out bar
         showSignOutBar();
-        seeGoogleLeaderboard.setEnabled(true);
+        googleLeaderboardButton.setEnabled(true);
+        if (!scoreSent) {
+            sendButton.setEnabled(true);
+        }
         mSignInClicked = false;
 
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        seeGoogleLeaderboard.setEnabled(false);
+        googleLeaderboardButton.setEnabled(false);
+        sendButton.setEnabled(false);
         mGoogleApiClient.connect();
     }
 
@@ -228,7 +239,8 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
                         mGoogleApiClient.disconnect();
                     }
                 }
-                seeGoogleLeaderboard.setEnabled(false);
+                googleLeaderboardButton.setEnabled(false);
+                sendButton.setEnabled(false);
                 showSignInBar();
                 break;
 
@@ -236,18 +248,24 @@ public class SubmitActivity extends Activity implements GoogleApiClient.OnConnec
                 if (!editText.getText().toString().equals("")) {
                     leaderboard.addHighScore(new HighScore(editText.getText().toString(), scoreKeeper.getCurrentScore()));
                     showToastWithMessage("Your score was successfully submitted! Check the leaderboard to see where it ranks.");
-                    submitted = true;
-                    scoreKeeper.resetCurrentScore();
-                    sendButton.setEnabled(false);
+                    scoreSubmitted = true;
+                    submitButton.setEnabled(false);
                 } else {
                     showToastWithMessage("Please enter your name before pressing SEND");
                 }
                 break;
 
+            case R.id.submit_send_google_button:
+                scoreSent = true;
+                sendButton.setEnabled(false);
+                Games.Leaderboards.submitScore(mGoogleApiClient,
+                        getString(R.string.leaderboard_highest_scores_ID), scoreKeeper.getCurrentScore());
+                break;
+
             case R.id.leaderboardButton:
                 if(mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                     startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient,
-                            getString(R.string.leaderboard_highest_scores)), REQ_CODE_LEADERBOARD);
+                            getString(R.string.leaderboard_highest_scores_ID)), REQ_CODE_LEADERBOARD);
                 } else {
                     showSignInBar();
                     showToastWithMessage("Please Sign in to a Google account");

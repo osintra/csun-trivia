@@ -37,9 +37,11 @@
     <string name="submit_title">Submit</string>
     <string name="submit_description">Thank you for playing\n
         <b>Know Your Campus</b>.\n
-        Please type your name and press the <i>Send</i> button in order to submit your score to the leaderboard.</string>
+        Please type your name and press the <i>Submit</i> button in order to add your score to the leaderboard.
+        If you also want to share this score with the Google leaderboard, sign in first and then press the
+        <i>Send</i> button</string>
     <string name="submit_score">Score: 0</string>
-    <string name="submit_send_button">Send</string>
+    <string name="submit_send_button">Submit</string>
     <string name="leaderboard_title">Leaderboard</string>
     <string name="credits_title">Credits</string>
     <string name="credits_description">Know Your Campus is an\n
@@ -66,6 +68,7 @@
     <string name="you_are_signed_in">You are signed in with Google.</string>
     <string name="sign_out">Sign Out</string>
     <string name="sign_in_explanation">Sign in so that your scores may be shared with the Google Leaderboard.</string>
+
     <!-- Sign in errors -->
     <string name="sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
     <string name="app_misconfigured">The application is incorrectly configured. Check that the package name and signing certificate match the client ID created in Developer Console. Also, if the application is not yet published, check that the account you are trying to sign in with is listed as a tester account. See logs for more information.</string>
@@ -74,6 +77,6 @@
     <string name="signin_failure">Unable to sign in</string>
     <string name="signin_other_error">There was an issue with sign-in, please try again later</string>
     <!-- Google leaderboard -->
-    <string name="leaderboardButton_text">Go to leaderboard</string>
-    <string name="sendToGoogleButtonText">Send to Google and local leaderboard</string>
+    <string name="leaderboardButton_text">G+ leaderboard</string>
+    <string name="sendToGoogleButtonText">Send</string>
 </resources>

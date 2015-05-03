@@ -93,15 +93,14 @@
             android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/submit_send_button"
-            android:visibility="visible"/>
+            android:text="@string/submit_send_button" />
 
         <Button
             android:id="@+id/submit_send_google_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sendToGoogleButtonText"
-            android:visibility="gone"/>
+            android:enabled="false"
+            android:text="@string/sendToGoogleButtonText" />
 
         <Button
             android:id="@+id/leaderboardButton"
@@ -109,6 +108,7 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:text="@string/leaderboardButton_text" />
+
     </LinearLayout>
 
 

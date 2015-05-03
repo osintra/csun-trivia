@@ -166,8 +166,7 @@ public class PlayActivity extends FragmentActivity {
 		systemTimeAtStartOfQuestion = System.currentTimeMillis();
 
 		// check that the index is not out of bounds
-		//if (questionIndex < questionHolder.getNumberOfQuestions()) {
-		if (questionIndex < 3) {
+		if (questionIndex < questionHolder.getNumberOfQuestions()) {
 			try {
 				// get current question from holder at index
 				question = questionHolder.getQuestion(questionIndex);
@@ -332,6 +331,8 @@ public class PlayActivity extends FragmentActivity {
 	public void onMapClickValidation(){
 
 		final int sides = 4;
+		mMap.getUiSettings().setRotateGesturesEnabled(false);
+
 		// register a long click/press map event on the google map
 		mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
